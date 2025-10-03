@@ -79,12 +79,12 @@ const Layout = ({ children }: LayoutProps) => {
               Words
             </Button>
             <Button
-              variant={location.pathname === "/add-word" ? "secondary" : "ghost"}
+              variant={location.pathname === "/add-content" ? "secondary" : "ghost"}
               size="sm"
-              onClick={() => navigate("/add-word")}
+              onClick={() => navigate("/add-content")}
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add
+              Add Content
             </Button>
             <Button
               variant={location.pathname === "/categories" ? "secondary" : "ghost"}

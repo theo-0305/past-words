@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Words from "./pages/Words";
 import AddWord from "./pages/AddWord";
 import EditWord from "./pages/EditWord";
+import AddContent from "./pages/AddContent";
 import WordDetail from "./pages/WordDetail";
 import Categories from "./pages/Categories";
 import Practice from "./pages/Practice";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/words" element={<Words />} />
           <Route path="/add-word" element={<AddWord />} />
+          <Route path="/add-content" element={<AddContent />} />
           <Route path="/edit-word/:id" element={<EditWord />} />
           <Route path="/word/:id" element={<WordDetail />} />
           <Route path="/categories" element={<Categories />} />

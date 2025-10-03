@@ -107,11 +107,11 @@ const Dashboard = () => {
             Word List
           </Button>
           <Button
-            onClick={() => navigate("/add-word")}
+            onClick={() => navigate("/add-content")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
           >
             <Plus className="mr-2 h-5 w-5" />
-            Add Word
+            Add Content
           </Button>
           <Button
             onClick={() => navigate("/categories")}
