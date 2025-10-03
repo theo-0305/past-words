@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Music, Image as ImageIcon, Globe, Video, FileText, BookOpen } from "lucide-react";
+import { Music, Image as ImageIcon, Globe, Video, FileText, BookOpen, Upload } from "lucide-react";
 
 const contentTypes = [
   { value: "word", label: "Words", icon: BookOpen },
@@ -33,6 +33,11 @@ const AddContent = () => {
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [languageId, setLanguageId] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
+  
+  const contentFileRef = useRef<HTMLInputElement>(null);
+  const thumbnailFileRef = useRef<HTMLInputElement>(null);
 
   // Fetch languages
   const { data: languages } = useQuery({
@@ -46,6 +51,73 @@ const AddContent = () => {
       return data;
     },
   });
+
+  const uploadFile = async (file: File, type: 'content' | 'thumbnail') => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+      
+      const { data, error } = await supabase.storage
+        .from('community-content')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('community-content')
+        .getPublicUrl(data.path);
+
+      return publicUrl;
+    } catch (error: any) {
+      toast({
+        title: "Upload failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'content' | 'thumbnail') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (type === 'content') {
+      setUploadingFile(true);
+    } else {
+      setUploadingThumbnail(true);
+    }
+
+    try {
+      const url = await uploadFile(file, type);
+      
+      if (type === 'content') {
+        setContentUrl(url);
+        toast({
+          title: "File uploaded",
+          description: "Your file has been uploaded successfully",
+        });
+      } else {
+        setThumbnailUrl(url);
+        toast({
+          title: "Thumbnail uploaded",
+          description: "Your thumbnail has been uploaded successfully",
+        });
+      }
+    } finally {
+      if (type === 'content') {
+        setUploadingFile(false);
+      } else {
+        setUploadingThumbnail(false);
+      }
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -211,48 +283,139 @@ const AddContent = () => {
               {contentType !== "word" && (
                 <div className="space-y-2">
                   <Label htmlFor="contentUrl">
-                    {contentType === "audio" && "Audio URL"}
-                    {contentType === "video" && "Video URL"}
-                    {contentType === "picture" && "Image URL"}
+                    {contentType === "audio" && "Audio File/URL"}
+                    {contentType === "video" && "Video File/URL"}
+                    {contentType === "picture" && "Image File/URL"}
                     {contentType === "article" && "Article URL"}
                     {contentType === "cultural_norm" && "Resource URL"}
                   </Label>
-                  <Input
-                    id="contentUrl"
-                    value={contentUrl}
-                    onChange={(e) => setContentUrl(e.target.value)}
-                    placeholder="Enter URL"
-                    type="url"
-                  />
+                  
+                  <div className="space-y-3">
+                    {/* Upload Button */}
+                    {(contentType === "audio" || contentType === "video" || contentType === "picture") && (
+                      <>
+                        <input
+                          ref={contentFileRef}
+                          type="file"
+                          accept={
+                            contentType === "audio" ? "audio/*" :
+                            contentType === "video" ? "video/*" :
+                            "image/*"
+                          }
+                          onChange={(e) => handleFileUpload(e, 'content')}
+                          className="hidden"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => contentFileRef.current?.click()}
+                          disabled={uploadingFile}
+                          className="w-full"
+                        >
+                          <Upload className="mr-2 h-4 w-4" />
+                          {uploadingFile ? "Uploading..." : "Upload File"}
+                        </Button>
+                        <p className="text-xs text-muted-foreground text-center">or</p>
+                      </>
+                    )}
+                    
+                    {/* URL Input */}
+                    <Input
+                      id="contentUrl"
+                      value={contentUrl}
+                      onChange={(e) => setContentUrl(e.target.value)}
+                      placeholder="Enter URL"
+                      type="url"
+                    />
+                  </div>
                 </div>
               )}
 
               {/* Audio URL for words */}
               {contentType === "word" && (
                 <div className="space-y-2">
-                  <Label htmlFor="audioUrl">Audio URL (Optional)</Label>
-                  <Input
-                    id="audioUrl"
-                    value={contentUrl}
-                    onChange={(e) => setContentUrl(e.target.value)}
-                    placeholder="Enter audio URL"
-                    type="url"
-                  />
+                  <Label htmlFor="audioUrl">Audio File/URL (Optional)</Label>
+                  
+                  <div className="space-y-3">
+                    {/* Upload Button */}
+                    <input
+                      ref={contentFileRef}
+                      type="file"
+                      accept="audio/*"
+                      onChange={(e) => handleFileUpload(e, 'content')}
+                      className="hidden"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => contentFileRef.current?.click()}
+                      disabled={uploadingFile}
+                      className="w-full"
+                    >
+                      <Upload className="mr-2 h-4 w-4" />
+                      {uploadingFile ? "Uploading..." : "Upload Audio"}
+                    </Button>
+                    <p className="text-xs text-muted-foreground text-center">or</p>
+                    
+                    {/* URL Input */}
+                    <Input
+                      id="audioUrl"
+                      value={contentUrl}
+                      onChange={(e) => setContentUrl(e.target.value)}
+                      placeholder="Enter audio URL"
+                      type="url"
+                    />
+                  </div>
                 </div>
               )}
 
               {/* Thumbnail URL */}
               <div className="space-y-2">
                 <Label htmlFor="thumbnailUrl">
-                  {contentType === "picture" ? "Image URL" : "Thumbnail URL (Optional)"}
+                  {contentType === "picture" ? "Thumbnail/Preview (Optional)" : "Thumbnail/Preview Image (Optional)"}
                 </Label>
-                <Input
-                  id="thumbnailUrl"
-                  value={thumbnailUrl}
-                  onChange={(e) => setThumbnailUrl(e.target.value)}
-                  placeholder="Enter thumbnail/image URL"
-                  type="url"
-                />
+                
+                <div className="space-y-3">
+                  {/* Upload Button */}
+                  <input
+                    ref={thumbnailFileRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileUpload(e, 'thumbnail')}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => thumbnailFileRef.current?.click()}
+                    disabled={uploadingThumbnail}
+                    className="w-full"
+                  >
+                    <Upload className="mr-2 h-4 w-4" />
+                    {uploadingThumbnail ? "Uploading..." : "Upload Thumbnail"}
+                  </Button>
+                  <p className="text-xs text-muted-foreground text-center">or</p>
+                  
+                  {/* URL Input */}
+                  <Input
+                    id="thumbnailUrl"
+                    value={thumbnailUrl}
+                    onChange={(e) => setThumbnailUrl(e.target.value)}
+                    placeholder="Enter thumbnail/image URL"
+                    type="url"
+                  />
+                  
+                  {/* Preview */}
+                  {thumbnailUrl && (
+                    <div className="mt-2">
+                      <img 
+                        src={thumbnailUrl} 
+                        alt="Thumbnail preview" 
+                        className="w-full h-48 object-cover rounded-md border"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Public Toggle */}
