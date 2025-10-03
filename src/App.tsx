@@ -12,6 +12,7 @@ import EditWord from "./pages/EditWord";
 import WordDetail from "./pages/WordDetail";
 import Categories from "./pages/Categories";
 import Practice from "./pages/Practice";
+import Community from "./pages/Community";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/word/:id" element={<WordDetail />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/practice" element={<Practice />} />
+          <Route path="/community" element={<Community />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

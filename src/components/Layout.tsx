@@ -1,10 +1,10 @@
 import { ReactNode, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpen, LogOut, Settings } from "lucide-react";
+import { BookOpen, LogOut, Settings, Home, Plus, FolderOpen, GraduationCap, Globe } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // Get initial session
@@ -59,6 +60,57 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
             <h1 className="text-2xl font-bold text-foreground">LinguaVault</h1>
           </div>
+
+          <nav className="hidden md:flex items-center gap-2">
+            <Button
+              variant={location.pathname === "/dashboard" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/dashboard")}
+            >
+              <Home className="mr-2 h-4 w-4" />
+              Dashboard
+            </Button>
+            <Button
+              variant={location.pathname === "/words" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/words")}
+            >
+              <BookOpen className="mr-2 h-4 w-4" />
+              Words
+            </Button>
+            <Button
+              variant={location.pathname === "/add-word" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/add-word")}
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Add
+            </Button>
+            <Button
+              variant={location.pathname === "/categories" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/categories")}
+            >
+              <FolderOpen className="mr-2 h-4 w-4" />
+              Categories
+            </Button>
+            <Button
+              variant={location.pathname === "/practice" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/practice")}
+            >
+              <GraduationCap className="mr-2 h-4 w-4" />
+              Practice
+            </Button>
+            <Button
+              variant={location.pathname === "/community" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/community")}
+            >
+              <Globe className="mr-2 h-4 w-4" />
+              Community
+            </Button>
+          </nav>
 
           <div className="flex items-center gap-4">
             <DropdownMenu>

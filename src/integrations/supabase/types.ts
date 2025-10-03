@@ -38,6 +38,80 @@ export type Database = {
         }
         Relationships: []
       }
+      community_content: {
+        Row: {
+          content_type: Database["public"]["Enums"]["content_type"]
+          content_url: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_public: boolean | null
+          language_id: string | null
+          metadata: Json | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          content_type: Database["public"]["Enums"]["content_type"]
+          content_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          language_id?: string | null
+          metadata?: Json | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          content_type?: Database["public"]["Enums"]["content_type"]
+          content_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          language_id?: string | null
+          metadata?: Json | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_content_language_id_fkey"
+            columns: ["language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      languages: {
+        Row: {
+          code: string
+          created_at: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -69,6 +143,8 @@ export type Database = {
           created_at: string | null
           id: string
           image_url: string | null
+          is_public: boolean | null
+          language_id: string | null
           native_word: string
           notes: string | null
           translation: string
@@ -81,6 +157,8 @@ export type Database = {
           created_at?: string | null
           id?: string
           image_url?: string | null
+          is_public?: boolean | null
+          language_id?: string | null
           native_word: string
           notes?: string | null
           translation: string
@@ -93,6 +171,8 @@ export type Database = {
           created_at?: string | null
           id?: string
           image_url?: string | null
+          is_public?: boolean | null
+          language_id?: string | null
           native_word?: string
           notes?: string | null
           translation?: string
@@ -107,6 +187,13 @@ export type Database = {
             referencedRelation: "categories"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "words_language_id_fkey"
+            columns: ["language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -117,7 +204,13 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      content_type:
+        | "audio"
+        | "word"
+        | "picture"
+        | "cultural_norm"
+        | "video"
+        | "article"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -244,6 +337,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      content_type: [
+        "audio",
+        "word",
+        "picture",
+        "cultural_norm",
+        "video",
+        "article",
+      ],
+    },
   },
 } as const
