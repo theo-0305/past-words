@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,8 @@ const Community = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>("all");
   const [selectedContentType, setSelectedContentType] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Fetch languages
   const { data: languages } = useQuery({
@@ -173,7 +176,15 @@ const Community = () => {
               const Icon = contentTypeIcons[item.content_type as keyof typeof contentTypeIcons] || BookOpen;
               
               return (
-                <Card key={item.id} className="hover:shadow-lg transition-shadow">
+                <Card
+                  key={item.id}
+                  className="hover:shadow-lg transition-shadow cursor-pointer"
+                  role="button"
+                  onClick={() => {
+                    setSelectedItem(item);
+                    setIsDialogOpen(true);
+                  }}
+               >
                   <CardHeader>
                     <div className="flex items-start justify-between gap-2">
                       <CardTitle className="text-lg line-clamp-2">{item.title}</CardTitle>
@@ -192,23 +203,22 @@ const Community = () => {
                         {item.content_type.replace('_', ' ')}
                       </Badge>
                     </div>
-                    
                     {item.thumbnail_url && (
                       <img
                         src={item.thumbnail_url}
-                        alt={item.title}
+                        alt={`${item.title} ${item.content_type} thumbnail`}
                         className="w-full h-48 object-cover rounded-md mb-4"
+                        loading="lazy"
                       />
                     )}
-                    
                     {item.image_url && (
                       <img
                         src={item.image_url}
-                        alt={item.title}
+                        alt={`${item.title} image`}
                         className="w-full h-48 object-cover rounded-md mb-4"
+                        loading="lazy"
                       />
                     )}
-
                     <p className="text-sm text-muted-foreground">
                       Shared by {item.profiles?.display_name || "Anonymous"}
                     </p>
@@ -219,6 +229,82 @@ const Community = () => {
           </div>
         )}
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-2xl">
+          {selectedItem && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{selectedItem.title}</DialogTitle>
+                <DialogDescription>
+                  {selectedItem.description || selectedItem.notes}
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-4">
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary">{selectedItem.languages?.name || 'Unknown Language'}</Badge>
+                  <Badge variant="outline">{selectedItem.content_type?.replace('_',' ') || 'word'}</Badge>
+                </div>
+
+                {(() => {
+                  const type = selectedItem.content_type;
+                  const contentUrl = selectedItem.content_url || selectedItem.audio_url || selectedItem.image_url;
+                  if (type === 'audio' || (!type && selectedItem.audio_url)) {
+                    return contentUrl ? (
+                      <audio controls className="w-full">
+                        <source src={contentUrl} />
+                      </audio>
+                    ) : null;
+                  }
+                  if (type === 'video') {
+                    return contentUrl ? (
+                      <video controls className="w-full rounded-md" src={contentUrl} />
+                    ) : null;
+                  }
+                  if (type === 'picture' || (!type && selectedItem.image_url)) {
+                    return (
+                      <img src={selectedItem.image_url || selectedItem.thumbnail_url} alt={`${selectedItem.title} preview`} className="w-full max-h-[420px] object-contain rounded-md" loading="lazy" />
+                    );
+                  }
+                  if (type === 'article' || type === 'cultural_norm') {
+                    return selectedItem.content_url ? (
+                      <a href={selectedItem.content_url} target="_blank" rel="noopener noreferrer" className="underline text-primary">
+                        Open resource
+                      </a>
+                    ) : null;
+                  }
+                  if (selectedItem.audio_url) {
+                    return (
+                      <audio controls className="w-full">
+                        <source src={selectedItem.audio_url} />
+                      </audio>
+                    );
+                  }
+                  return null;
+                })()}
+
+                {!selectedItem.content_type && (
+                  <div className="grid grid-cols-1 gap-2">
+                    <div>
+                      <span className="text-sm text-muted-foreground">Native word</span>
+                      <p className="font-medium">{selectedItem.native_word}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-muted-foreground">Translation</span>
+                      <p className="font-medium">{selectedItem.translation}</p>
+                    </div>
+                  </div>
+                )}
+
+                <p className="text-sm text-muted-foreground">
+                  Shared by {selectedItem.profiles?.display_name || 'Anonymous'}
+                </p>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };
