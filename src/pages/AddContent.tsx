@@ -126,6 +126,11 @@ const AddContent = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
+      // Ensure profile exists for FK and attribution
+      await supabase.from("profiles").upsert({
+        id: user.id,
+        display_name: (user.user_metadata as any)?.display_name || (user.email ? user.email.split("@")[0] : null)
+      });
 
       if (contentType === "word") {
         // Save to words table

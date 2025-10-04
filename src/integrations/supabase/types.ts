@@ -89,6 +89,13 @@ export type Database = {
             referencedRelation: "languages"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "community_content_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
         ]
       }
       languages: {
