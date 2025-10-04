@@ -52,6 +52,37 @@ const AddContent = () => {
     },
   });
 
+  const generateVideoThumbnail = async (videoFile: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement('video');
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      video.preload = 'metadata';
+      video.muted = true;
+      
+      video.onloadedmetadata = () => {
+        video.currentTime = Math.min(1, video.duration / 2);
+      };
+      
+      video.onseeked = () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx?.drawImage(video, 0, 0);
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('Failed to generate thumbnail'));
+          }
+        }, 'image/jpeg', 0.8);
+      };
+      
+      video.onerror = () => reject(new Error('Failed to load video'));
+      video.src = URL.createObjectURL(videoFile);
+    });
+  };
+
   const uploadFile = async (file: File, type: 'content' | 'thumbnail') => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -99,10 +130,50 @@ const AddContent = () => {
       
       if (type === 'content') {
         setContentUrl(url);
-        toast({
-          title: "File uploaded",
-          description: "Your file has been uploaded successfully",
-        });
+        
+        // Auto-generate thumbnail for videos
+        if (contentType === 'video' && !thumbnailUrl && file.type.startsWith('video/')) {
+          try {
+            const thumbnailBlob = await generateVideoThumbnail(file);
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+              const thumbnailFileName = `${user.id}/${Date.now()}_thumbnail.jpg`;
+              const { data: thumbnailData, error: thumbnailError } = await supabase.storage
+                .from('community-content')
+                .upload(thumbnailFileName, thumbnailBlob, {
+                  cacheControl: '3600',
+                  upsert: false
+                });
+              
+              if (!thumbnailError && thumbnailData) {
+                const { data: { publicUrl } } = supabase.storage
+                  .from('community-content')
+                  .getPublicUrl(thumbnailData.path);
+                setThumbnailUrl(publicUrl);
+                toast({
+                  title: "Video uploaded",
+                  description: "Video and thumbnail generated successfully",
+                });
+              } else {
+                toast({
+                  title: "File uploaded",
+                  description: "Video uploaded, but thumbnail generation failed",
+                });
+              }
+            }
+          } catch (err) {
+            console.error('Thumbnail generation failed:', err);
+            toast({
+              title: "File uploaded",
+              description: "Your file has been uploaded successfully",
+            });
+          }
+        } else {
+          toast({
+            title: "File uploaded",
+            description: "Your file has been uploaded successfully",
+          });
+        }
       } else {
         setThumbnailUrl(url);
         toast({

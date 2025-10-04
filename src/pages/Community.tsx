@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -203,14 +204,35 @@ const Community = () => {
                         {item.content_type.replace('_', ' ')}
                       </Badge>
                     </div>
-                    {item.thumbnail_url && (
+                    {item.thumbnail_url && item.content_type === 'video' ? (
+                      <HoverCard openDelay={200}>
+                        <HoverCardTrigger asChild>
+                          <img
+                            src={item.thumbnail_url}
+                            alt={`${item.title} ${item.content_type} thumbnail`}
+                            className="w-full h-48 object-cover rounded-md mb-4 cursor-pointer transition-transform hover:scale-[1.02]"
+                            loading="lazy"
+                          />
+                        </HoverCardTrigger>
+                        <HoverCardContent className="w-80 p-2" side="top">
+                          <video
+                            src={item.content_url}
+                            className="w-full rounded-md"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                          />
+                        </HoverCardContent>
+                      </HoverCard>
+                    ) : item.thumbnail_url ? (
                       <img
                         src={item.thumbnail_url}
                         alt={`${item.title} ${item.content_type} thumbnail`}
                         className="w-full h-48 object-cover rounded-md mb-4"
                         loading="lazy"
                       />
-                    )}
+                    ) : null}
                     {item.image_url && (
                       <img
                         src={item.image_url}
