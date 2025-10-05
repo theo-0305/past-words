@@ -26,11 +26,11 @@ const HashRedirect = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!location.hash) return;
     const pathname = location.pathname;
+    const rawHash = location.hash.replace(/^#/, "");
+    if (!rawHash) return;
 
-    const hash = location.hash.replace(/^#/, "");
-    const params = new URLSearchParams(hash);
+    const params = new URLSearchParams(rawHash);
 
     const error = params.get("error");
     const error_code = params.get("error_code");
@@ -40,9 +40,20 @@ const HashRedirect = () => {
 
     console.log("[HashRedirect] pathname:", pathname);
     console.log("[HashRedirect] hash:", location.hash);
+    console.log("[HashRedirect] rawHash:", rawHash);
     console.log("[HashRedirect] parsed params:", Object.fromEntries(params.entries()));
 
-    // Handle explicit Supabase error codes first
+    // Handle explicit Lovable-friendly marker first
+    if (rawHash.startsWith("reset-password")) {
+      const cleaned = rawHash.replace(/^reset-password#?/, "");
+      console.log("[HashRedirect] Detected #reset-password marker; routing to /reset-password with cleaned hash:", cleaned);
+      if (pathname !== "/reset-password") {
+        navigate("/reset-password#" + cleaned, { replace: true });
+      }
+      return;
+    }
+
+    // Handle explicit Supabase error codes
     if (error) {
       console.warn("[HashRedirect] Error in hash:", { error, error_code, error_description });
       if (pathname !== "/forgot-password") {
