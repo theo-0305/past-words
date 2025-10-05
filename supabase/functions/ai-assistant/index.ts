@@ -14,6 +14,26 @@ serve(async (req) => {
 
   try {
     const { message, conversationId, currentPage } = await req.json();
+
+    const projectUrl = Deno.env.get('SUPABASE_URL');
+    const anonKey = Deno.env.get('SUPABASE_ANON_KEY');
+    const openrouterKey = Deno.env.get('OPENROUTER_API_KEY');
+
+    if (!projectUrl || !anonKey) {
+      console.error('Missing Supabase env vars', { hasUrl: !!projectUrl, hasAnon: !!anonKey });
+      return new Response(
+        JSON.stringify({ error: 'Server misconfigured: SUPABASE_URL or SUPABASE_ANON_KEY missing' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (!openrouterKey) {
+      console.error('Missing OPENROUTER_API_KEY');
+      return new Response(
+        JSON.stringify({ error: 'Server misconfigured: OPENROUTER_API_KEY missing' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
     
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
@@ -21,8 +41,8 @@ serve(async (req) => {
     }
 
     const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      projectUrl,
+      anonKey,
       { global: { headers: { Authorization: authHeader } } }
     );
 
@@ -207,9 +227,10 @@ Remember: You have complete knowledge of this app and access to the user's data.
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('OPENROUTER_API_KEY')}`,
+        'Authorization': `Bearer ${openrouterKey}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': Deno.env.get('SUPABASE_URL') || 'https://linguavault.com',
+        'HTTP-Referer': projectUrl || 'https://linguavault.com',
+        'X-Title': 'LinguaVault AI Assistant',
       },
       body: JSON.stringify({
         model: 'anthropic/claude-3.5-sonnet',
@@ -221,7 +242,7 @@ Remember: You have complete knowledge of this app and access to the user's data.
     if (!response.ok) {
       const error = await response.text();
       console.error('OpenRouter error:', error);
-      throw new Error('AI request failed');
+      throw new Error(`AI request failed: ${response.status}`);
     }
 
     const data = await response.json();
