@@ -149,9 +149,9 @@ export const AIAssistant = () => {
             </Button>
           </CardHeader>
 
-          <CardContent className="flex-1 flex flex-col gap-4 p-4 pt-0">
-            <ScrollArea className="flex-1 pr-4" ref={scrollRef}>
-              <div className="space-y-4">
+          <CardContent className="flex-1 flex flex-col p-4 pt-0 overflow-hidden">
+            <ScrollArea className="flex-1 pr-4 mb-4" ref={scrollRef}>
+              <div className="space-y-4 pb-4">
                 {messages.length === 0 && (
                   <div className="text-center text-muted-foreground py-8">
                     <Sparkles className="h-12 w-12 mx-auto mb-4 text-primary opacity-50" />
@@ -187,7 +187,7 @@ export const AIAssistant = () => {
             </ScrollArea>
 
             {messages.length === 0 && (
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2 mb-4">
                 {quickActions.map((action, idx) => (
                   <Button
                     key={idx}
@@ -203,7 +203,7 @@ export const AIAssistant = () => {
               </div>
             )}
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-shrink-0">
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -221,7 +221,7 @@ export const AIAssistant = () => {
                 onClick={() => sendMessage()}
                 disabled={isLoading || !input.trim()}
                 size="icon"
-                className="h-[60px] w-[60px]"
+                className="h-[60px] w-[60px] flex-shrink-0"
               >
                 {isLoading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
