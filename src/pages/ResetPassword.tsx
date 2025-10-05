@@ -19,13 +19,26 @@ const ResetPassword = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if there's a valid session or reset token
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        // Check for hash parameters from email link
         const hash = window.location.hash;
-        if (!hash.includes('access_token')) {
+        const params = new URLSearchParams(hash.replace(/^#/, ""));
+        const access_token = params.get("access_token");
+        const refresh_token = params.get("refresh_token");
+        const type = params.get("type");
+
+        if (access_token && refresh_token && type === "recovery") {
+          const { error } = await supabase.auth.setSession({ access_token, refresh_token });
+          if (error) {
+            toast({
+              title: "Invalid reset session",
+              description: "Please request a new password reset link.",
+              variant: "destructive",
+            });
+            navigate("/forgot-password");
+          }
+        } else {
           toast({
             title: "Invalid reset link",
             description: "Please request a new password reset link.",
