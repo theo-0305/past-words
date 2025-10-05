@@ -72,10 +72,11 @@ const Auth = () => {
           description: "You can now start preserving languages.",
         });
       }
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err ?? 'Unknown error');
       toast({
         title: "Error",
-        description: error.message,
+        description: message,
         variant: "destructive",
       });
     } finally {
