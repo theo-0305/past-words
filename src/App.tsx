@@ -28,17 +28,38 @@ const HashRedirect = () => {
   useEffect(() => {
     if (!location.hash) return;
     const pathname = location.pathname;
-    if (location.hash.includes('error=')) {
-      if (pathname !== '/forgot-password') {
-        navigate('/forgot-password' + location.hash, { replace: true });
+
+    const hash = location.hash.replace(/^#/, "");
+    const params = new URLSearchParams(hash);
+
+    const error = params.get("error");
+    const error_code = params.get("error_code");
+    const error_description = params.get("error_description");
+    const type = params.get("type");
+    const hasAccessToken = params.has("access_token");
+
+    console.log("[HashRedirect] pathname:", pathname);
+    console.log("[HashRedirect] hash:", location.hash);
+    console.log("[HashRedirect] parsed params:", Object.fromEntries(params.entries()));
+
+    // Handle explicit Supabase error codes first
+    if (error) {
+      console.warn("[HashRedirect] Error in hash:", { error, error_code, error_description });
+      if (pathname !== "/forgot-password") {
+        navigate("/forgot-password" + location.hash, { replace: true });
       }
       return;
     }
-    if (location.hash.includes('access_token')) {
-      if (pathname !== '/reset-password') {
-        navigate('/reset-password' + location.hash, { replace: true });
-      }
+
+    // Handle recovery flow (password reset)
+    if (hasAccessToken && type === "recovery" && pathname !== "/reset-password") {
+      console.log("[HashRedirect] Navigating to /reset-password with hash");
+      navigate("/reset-password" + location.hash, { replace: true });
+      return;
     }
+
+    // No actionable hash detected
+    console.log("[HashRedirect] No redirect needed.");
   }, [location, navigate]);
 
   return null;
