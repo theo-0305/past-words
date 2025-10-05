@@ -143,6 +143,69 @@ export type Database = {
         }
         Relationships: []
       }
+      user_memory: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          role: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id?: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          role: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          created_at: string | null
+          has_completed_onboarding: boolean | null
+          id: string
+          last_interaction: string | null
+          learned_facts: Json | null
+          updated_at: string | null
+          usage_patterns: Json | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          has_completed_onboarding?: boolean | null
+          id?: string
+          last_interaction?: string | null
+          learned_facts?: Json | null
+          updated_at?: string | null
+          usage_patterns?: Json | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          has_completed_onboarding?: boolean | null
+          id?: string
+          last_interaction?: string | null
+          learned_facts?: Json | null
+          updated_at?: string | null
+          usage_patterns?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       words: {
         Row: {
           audio_url: string | null

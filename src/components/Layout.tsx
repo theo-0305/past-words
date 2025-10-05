@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AIAssistant } from "@/components/AIAssistant";
 
 interface LayoutProps {
   children: ReactNode;
@@ -146,6 +147,7 @@ const Layout = ({ children }: LayoutProps) => {
       </header>
 
       <main>{children}</main>
+      <AIAssistant />
     </div>
   );
 };
