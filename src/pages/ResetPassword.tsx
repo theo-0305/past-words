@@ -21,22 +21,37 @@ const ResetPassword = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
+      const hash = window.location.hash;
+      const params = new URLSearchParams(hash.replace(/^#/, ""));
+
+      // Handle explicit Supabase error codes in hash
+      const error = params.get("error");
+      const error_code = params.get("error_code");
+      const error_description = params.get("error_description");
+      if (error) {
+        toast({
+          title: error_code === "otp_expired" ? "Reset link expired" : "Reset error",
+          description: error_description || "Please request a new password reset link.",
+          variant: "destructive",
+        });
+        navigate("/forgot-password" + hash, { replace: true });
+        return;
+      }
+
       if (!session) {
-        const hash = window.location.hash;
-        const params = new URLSearchParams(hash.replace(/^#/, ""));
         const access_token = params.get("access_token");
         const refresh_token = params.get("refresh_token");
         const type = params.get("type");
 
         if (access_token && refresh_token && type === "recovery") {
-          const { error } = await supabase.auth.setSession({ access_token, refresh_token });
-          if (error) {
+          const { error: setError } = await supabase.auth.setSession({ access_token, refresh_token });
+          if (setError) {
             toast({
               title: "Invalid reset session",
               description: "Please request a new password reset link.",
               variant: "destructive",
             });
-            navigate("/forgot-password");
+            navigate("/forgot-password", { replace: true });
           }
         } else {
           toast({
@@ -44,7 +59,7 @@ const ResetPassword = () => {
             description: "Please request a new password reset link.",
             variant: "destructive",
           });
-          navigate("/forgot-password");
+          navigate("/forgot-password", { replace: true });
         }
       }
     };
