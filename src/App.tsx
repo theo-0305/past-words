@@ -26,8 +26,18 @@ const HashRedirect = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.hash && location.hash.includes('access_token')) {
-      navigate('/reset-password' + location.hash, { replace: true });
+    if (!location.hash) return;
+    const pathname = location.pathname;
+    if (location.hash.includes('error=')) {
+      if (pathname !== '/forgot-password') {
+        navigate('/forgot-password' + location.hash, { replace: true });
+      }
+      return;
+    }
+    if (location.hash.includes('access_token')) {
+      if (pathname !== '/reset-password') {
+        navigate('/reset-password' + location.hash, { replace: true });
+      }
     }
   }, [location, navigate]);
 

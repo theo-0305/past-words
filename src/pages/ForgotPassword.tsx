@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,25 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (!location.hash) return;
+    const params = new URLSearchParams(location.hash.replace(/^#/, ""));
+    const error = params.get("error");
+    const error_code = params.get("error_code");
+    const error_description = params.get("error_description");
+    if (error) {
+      toast({
+        title: error_code === "otp_expired" ? "Reset link expired" : "Reset error",
+        description: error_description || "Please request a new password reset link.",
+        variant: "destructive",
+      });
+      // Clean up the hash to avoid repeated toasts if user refreshes
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, [location, toast]);
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
