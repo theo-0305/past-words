@@ -79,6 +79,14 @@ const Layout = ({ children }: LayoutProps) => {
               Learning Hub
             </Button>
             <Button
+              variant={location.pathname === "/languages" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/languages")}
+            >
+              <Globe className="mr-2 h-4 w-4" />
+              Languages
+            </Button>
+            <Button
               variant={location.pathname === "/words" ? "secondary" : "ghost"}
               size="sm"
               onClick={() => navigate("/words")}
@@ -87,28 +95,12 @@ const Layout = ({ children }: LayoutProps) => {
               Words
             </Button>
             <Button
-              variant={location.pathname === "/practice" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => navigate("/practice")}
-            >
-              <GraduationCap className="mr-2 h-4 w-4" />
-              Practice
-            </Button>
-            <Button
               variant={location.pathname === "/community" ? "secondary" : "ghost"}
               size="sm"
               onClick={() => navigate("/community")}
             >
               <Globe className="mr-2 h-4 w-4" />
               Community
-            </Button>
-            <Button
-              variant={location.pathname === "/about" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => navigate("/about")}
-            >
-              <Info className="mr-2 h-4 w-4" />
-              About
             </Button>
           </nav>
 

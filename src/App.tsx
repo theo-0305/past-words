@@ -18,6 +18,8 @@ import Categories from "./pages/Categories";
 import Practice from "./pages/Practice";
 import Community from "./pages/Community";
 import LanguageHub from "./pages/LanguageHub";
+import Languages from "./pages/Languages";
+import LanguageDetail from "./pages/LanguageDetail";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
@@ -92,6 +94,8 @@ const App = () => (
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/learn" element={<LanguageHub />} />
+          <Route path="/languages" element={<Languages />} />
+          <Route path="/language/:id" element={<LanguageDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/words" element={<Words />} />
           <Route path="/add-word" element={<AddWord />} />

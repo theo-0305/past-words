@@ -1,1 +1,7 @@
 project_id = "prgvooggelwgnqpveicf"
+
+[functions.ai-assistant]
+verify_jwt = true
+
+[functions.language-info]
+verify_jwt = true
