@@ -17,6 +17,8 @@ import WordDetail from "./pages/WordDetail";
 import Categories from "./pages/Categories";
 import Practice from "./pages/Practice";
 import Community from "./pages/Community";
+import LanguageHub from "./pages/LanguageHub";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -89,6 +91,8 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/learn" element={<LanguageHub />} />
+          <Route path="/about" element={<About />} />
           <Route path="/words" element={<Words />} />
           <Route path="/add-word" element={<AddWord />} />
           <Route path="/add-content" element={<AddContent />} />

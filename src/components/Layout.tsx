@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpen, LogOut, Settings, Home, Plus, FolderOpen, GraduationCap, Globe } from "lucide-react";
+import { BookOpen, LogOut, Settings, Home, Plus, FolderOpen, GraduationCap, Globe, Info } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -71,28 +71,20 @@ const Layout = ({ children }: LayoutProps) => {
               Dashboard
             </Button>
             <Button
+              variant={location.pathname === "/learn" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/learn")}
+            >
+              <GraduationCap className="mr-2 h-4 w-4" />
+              Learning Hub
+            </Button>
+            <Button
               variant={location.pathname === "/words" ? "secondary" : "ghost"}
               size="sm"
               onClick={() => navigate("/words")}
             >
               <BookOpen className="mr-2 h-4 w-4" />
               Words
-            </Button>
-            <Button
-              variant={location.pathname === "/add-content" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => navigate("/add-content")}
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Add Content
-            </Button>
-            <Button
-              variant={location.pathname === "/categories" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => navigate("/categories")}
-            >
-              <FolderOpen className="mr-2 h-4 w-4" />
-              Categories
             </Button>
             <Button
               variant={location.pathname === "/practice" ? "secondary" : "ghost"}
@@ -109,6 +101,14 @@ const Layout = ({ children }: LayoutProps) => {
             >
               <Globe className="mr-2 h-4 w-4" />
               Community
+            </Button>
+            <Button
+              variant={location.pathname === "/about" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => navigate("/about")}
+            >
+              <Info className="mr-2 h-4 w-4" />
+              About
             </Button>
           </nav>
 
