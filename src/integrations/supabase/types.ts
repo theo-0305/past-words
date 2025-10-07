@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          admin_id: string
+          created_at: string | null
+          details: Json | null
+          id: string
+          target_id: string | null
+          target_type: string
+        }
+        Insert: {
+          action: string
+          admin_id: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_id?: string | null
+          target_type: string
+        }
+        Update: {
+          action?: string
+          admin_id?: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_id?: string | null
+          target_type?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           color: string | null
@@ -48,6 +78,10 @@ export type Database = {
           is_public: boolean | null
           language_id: string | null
           metadata: Json | null
+          review_notes: string | null
+          review_status: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
           thumbnail_url: string | null
           title: string
           updated_at: string | null
@@ -62,6 +96,10 @@ export type Database = {
           is_public?: boolean | null
           language_id?: string | null
           metadata?: Json | null
+          review_notes?: string | null
+          review_status?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           thumbnail_url?: string | null
           title: string
           updated_at?: string | null
@@ -76,6 +114,10 @@ export type Database = {
           is_public?: boolean | null
           language_id?: string | null
           metadata?: Json | null
+          review_notes?: string | null
+          review_status?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           thumbnail_url?: string | null
           title?: string
           updated_at?: string | null
@@ -94,6 +136,50 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_flags: {
+        Row: {
+          content_id: string
+          created_at: string | null
+          details: string | null
+          flagger_id: string
+          id: string
+          reason: string
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string | null
+        }
+        Insert: {
+          content_id: string
+          created_at?: string | null
+          details?: string | null
+          flagger_id: string
+          id?: string
+          reason: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+        }
+        Update: {
+          content_id?: string
+          created_at?: string | null
+          details?: string | null
+          flagger_id?: string
+          id?: string
+          reason?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_flags_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "community_content"
             referencedColumns: ["id"]
           },
         ]
@@ -121,24 +207,36 @@ export type Database = {
       }
       profiles: {
         Row: {
+          account_status: string | null
           avatar_url: string | null
           created_at: string | null
           display_name: string | null
           id: string
+          suspended_at: string | null
+          suspended_by: string | null
+          suspension_reason: string | null
           updated_at: string | null
         }
         Insert: {
+          account_status?: string | null
           avatar_url?: string | null
           created_at?: string | null
           display_name?: string | null
           id: string
+          suspended_at?: string | null
+          suspended_by?: string | null
+          suspension_reason?: string | null
           updated_at?: string | null
         }
         Update: {
+          account_status?: string | null
           avatar_url?: string | null
           created_at?: string | null
           display_name?: string | null
           id?: string
+          suspended_at?: string | null
+          suspended_by?: string | null
+          suspension_reason?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -202,6 +300,30 @@ export type Database = {
           learned_facts?: Json | null
           updated_at?: string | null
           usage_patterns?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          assigned_at: string | null
+          assigned_by: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          assigned_at?: string | null
+          assigned_by?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          assigned_at?: string | null
+          assigned_by?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
         Relationships: []
@@ -271,9 +393,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: {
+        Args: { _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
+      app_role: "user" | "moderator" | "admin" | "super_admin"
       content_type:
         | "audio"
         | "word"
@@ -408,6 +541,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["user", "moderator", "admin", "super_admin"],
       content_type: [
         "audio",
         "word",

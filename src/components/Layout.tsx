@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpen, LogOut, Settings, Home, Plus, FolderOpen, GraduationCap, Globe, Info } from "lucide-react";
+import { BookOpen, LogOut, Settings, Home, Plus, FolderOpen, GraduationCap, Globe, Info, Shield } from "lucide-react";
+import { useAdminRole } from "@/hooks/useAdminRole";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAdmin } = useAdminRole();
 
   useEffect(() => {
     // Get initial session
@@ -102,6 +104,16 @@ const Layout = ({ children }: LayoutProps) => {
               <Globe className="mr-2 h-4 w-4" />
               Community
             </Button>
+            {isAdmin && (
+              <Button
+                variant={location.pathname.startsWith("/admin") ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => navigate("/admin")}
+              >
+                <Shield className="mr-2 h-4 w-4" />
+                Admin
+              </Button>
+            )}
           </nav>
 
           <div className="flex items-center gap-4">
