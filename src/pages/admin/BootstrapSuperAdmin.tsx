@@ -19,6 +19,14 @@ import {
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
 
+// Define minimal types to avoid 'any' usage
+type RoleRow = { role: string };
+interface InvokeError {
+  message?: string;
+  status?: number | string;
+  statusCode?: number | string;
+  code?: number | string;
+}
 const BootstrapSuperAdmin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -40,12 +48,12 @@ const BootstrapSuperAdmin: React.FC = () => {
           .from('user_roles')
           .select('role')
           .eq('user_id', u.id);
-        setMyRoles((roles || []).map((r: any) => r.role));
+        setMyRoles((roles || []).map((r: RoleRow) => r.role));
         if (!email && u.email) setEmail(u.email);
       }
     };
     run();
-  }, []);
+  }, [email]);
 
   const assignSuperAdmin = async () => {
     setLoading(true);
@@ -58,10 +66,11 @@ const BootstrapSuperAdmin: React.FC = () => {
       toast({ title: 'Role assigned', description: `super_admin granted to ${email}` });
       setHint(null);
       return;
-    } catch (invokeErr: any) {
+    } catch (invokeErr: unknown) {
       // Provide actionable guidance based on common invoke failures
-      const msg: string = invokeErr?.message || '';
-      const status = (invokeErr?.status ?? invokeErr?.statusCode ?? invokeErr?.code) as number | string | undefined;
+      const err = invokeErr as InvokeError;
+      const msg: string = err?.message || '';
+      const status = (err?.status ?? err?.statusCode ?? err?.code) as number | string | undefined;
       if (status === 404 || /Function not found/i.test(msg)) {
         setHint('Edge function not deployed. In Lovable Cloud: 1) Install Supabase CLI locally, 2) Run `supabase functions deploy bootstrap-super-admin`, 3) Set secrets: `supabase secrets set SUPABASE_SERVICE_ROLE_KEY=<service_role> SUPABASE_URL=<project_url>`, 4) Retry this action.');
       } else if (/service role|invalid api key|missing key/i.test(msg)) {
@@ -77,7 +86,7 @@ const BootstrapSuperAdmin: React.FC = () => {
         const me = userData.user;
         const isSelf = (me.email || '').toLowerCase() === email.toLowerCase();
         const { data: myRolesData } = await supabase.from('user_roles').select('role').eq('user_id', me.id);
-        const isAdmin = (myRolesData || []).some((r: any) => ['admin', 'super_admin', 'moderator'].includes(r.role));
+        const isAdmin = (myRolesData || []).some((r: RoleRow) => ['admin', 'super_admin', 'moderator'].includes(r.role));
         if (!isSelf && !isAdmin) {
           toast({ title: 'Forbidden', description: 'You can only self-bootstrap or must already be an admin.', variant: 'destructive' });
           return;
@@ -103,8 +112,9 @@ const BootstrapSuperAdmin: React.FC = () => {
             'To assign roles to other users, deploy the edge function and set SUPABASE_SERVICE_ROLE_KEY. For now, ask the target user to log in and use self-bootstrap.',
           variant: 'destructive',
         });
-      } catch (fallbackErr: any) {
-        toast({ title: 'Error assigning role', description: fallbackErr?.message || 'Unknown error during fallback', variant: 'destructive' });
+      } catch (fallbackErr: unknown) {
+        const fErr = fallbackErr as { message?: string };
+        toast({ title: 'Error assigning role', description: fErr?.message || 'Unknown error during fallback', variant: 'destructive' });
       }
     } finally {
       setLoading(false);
