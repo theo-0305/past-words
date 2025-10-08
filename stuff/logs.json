@@ -1,0 +1,1202 @@
+[
+  {
+    "timestamp": 1759937173659000,
+    "id": "26ab9d8e-537b-420e-b73a-077d4f93cc42",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "26ab9d8e-537b-420e-b73a-077d4f93cc42",
+      "log_level": "LOG",
+      "timestamp": 1759937173659000
+    }
+  },
+  {
+    "timestamp": 1759937173659000,
+    "id": "c49182e1-7325-48ae-b049-288dbec3105e",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "c49182e1-7325-48ae-b049-288dbec3105e",
+      "log_level": "LOG",
+      "timestamp": 1759937173659000
+    }
+  },
+  {
+    "timestamp": 1759937173463000,
+    "id": "384e1400-e1cd-4b44-87fc-0e2b812938a4",
+    "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=60010",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=60010",
+      "id": "384e1400-e1cd-4b44-87fc-0e2b812938a4",
+      "log_level": "LOG",
+      "timestamp": 1759937173463000
+    }
+  },
+  {
+    "timestamp": 1759937171150000,
+    "id": "a2423bae-2a93-4951-b895-14bcadacd3ba",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "a2423bae-2a93-4951-b895-14bcadacd3ba",
+      "log_level": "LOG",
+      "timestamp": 1759937171150000
+    }
+  },
+  {
+    "timestamp": 1759937171150000,
+    "id": "768e6f20-af0e-48a4-86ce-ed41483c85de",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "768e6f20-af0e-48a4-86ce-ed41483c85de",
+      "log_level": "LOG",
+      "timestamp": 1759937171150000
+    }
+  },
+  {
+    "timestamp": 1759937170342000,
+    "id": "12bbb763-590f-49eb-b6c7-76ac58132edc",
+    "event_message": "connection authorized: user=supabase_admin database=postgres application_name=postgres_exporter",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_admin database=postgres application_name=postgres_exporter",
+      "id": "12bbb763-590f-49eb-b6c7-76ac58132edc",
+      "log_level": "LOG",
+      "timestamp": 1759937170342000
+    }
+  },
+  {
+    "timestamp": 1759937170342000,
+    "id": "3f37f726-05f2-45f9-b578-754d63bc4f75",
+    "event_message": "connection authenticated: user=\"supabase_admin\" method=trust (/etc/postgresql/pg_hba.conf:85)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: user=\"supabase_admin\" method=trust (/etc/postgresql/pg_hba.conf:85)",
+      "id": "3f37f726-05f2-45f9-b578-754d63bc4f75",
+      "log_level": "LOG",
+      "timestamp": 1759937170342000
+    }
+  },
+  {
+    "timestamp": 1759937157497000,
+    "id": "169e5235-e3bf-469f-b922-c5a950efeb56",
+    "event_message": "connection authenticated: identity=\"postgres\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"postgres\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "169e5235-e3bf-469f-b922-c5a950efeb56",
+      "log_level": "LOG",
+      "timestamp": 1759937157497000
+    }
+  },
+  {
+    "timestamp": 1759937157497000,
+    "id": "cb9ba444-3a8b-46cf-a12d-74816d3f8e7c",
+    "event_message": "connection authorized: user=postgres database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=postgres database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "cb9ba444-3a8b-46cf-a12d-74816d3f8e7c",
+      "log_level": "LOG",
+      "timestamp": 1759937157497000
+    }
+  },
+  {
+    "timestamp": 1759937157456000,
+    "id": "b84725ad-a48f-48b8-b239-2f6ad6e6569d",
+    "event_message": "connection authenticated: identity=\"postgres\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"postgres\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "b84725ad-a48f-48b8-b239-2f6ad6e6569d",
+      "log_level": "LOG",
+      "timestamp": 1759937157456000
+    }
+  },
+  {
+    "timestamp": 1759937157456000,
+    "id": "6c81c1ad-e947-4620-b2be-a2bd36378457",
+    "event_message": "connection authorized: user=postgres database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=postgres database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "6c81c1ad-e947-4620-b2be-a2bd36378457",
+      "log_level": "LOG",
+      "timestamp": 1759937157456000
+    }
+  },
+  {
+    "timestamp": 1759937157249000,
+    "id": "78d0c5e4-be92-458d-bcfc-5a035eee2269",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "78d0c5e4-be92-458d-bcfc-5a035eee2269",
+      "log_level": "LOG",
+      "timestamp": 1759937157249000
+    }
+  },
+  {
+    "timestamp": 1759937157249000,
+    "id": "c41482bf-a261-4f22-947a-c06df9c9b247",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "c41482bf-a261-4f22-947a-c06df9c9b247",
+      "log_level": "LOG",
+      "timestamp": 1759937157249000
+    }
+  },
+  {
+    "timestamp": 1759937157245000,
+    "id": "2e17d548-7140-403f-ae88-ba388d6ff12f",
+    "event_message": "connection received: host=2a05:d018:1e14:201:39cd:f8dd:e1fb:2cfa port=37310",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:39cd:f8dd:e1fb:2cfa port=37310",
+      "id": "2e17d548-7140-403f-ae88-ba388d6ff12f",
+      "log_level": "LOG",
+      "timestamp": 1759937157245000
+    }
+  },
+  {
+    "timestamp": 1759937157047000,
+    "id": "998efc03-d253-49b5-b919-277e54a494f9",
+    "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=40032",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=40032",
+      "id": "998efc03-d253-49b5-b919-277e54a494f9",
+      "log_level": "LOG",
+      "timestamp": 1759937157047000
+    }
+  },
+  {
+    "timestamp": 1759937110342000,
+    "id": "1c7d167d-488c-49d0-ab30-bd062ea72459",
+    "event_message": "connection authorized: user=supabase_admin database=postgres application_name=postgres_exporter",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_admin database=postgres application_name=postgres_exporter",
+      "id": "1c7d167d-488c-49d0-ab30-bd062ea72459",
+      "log_level": "LOG",
+      "timestamp": 1759937110342000
+    }
+  },
+  {
+    "timestamp": 1759937110342000,
+    "id": "50dd9e40-4a29-4c44-bd45-3f6f181737ce",
+    "event_message": "connection authenticated: user=\"supabase_admin\" method=trust (/etc/postgresql/pg_hba.conf:85)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: user=\"supabase_admin\" method=trust (/etc/postgresql/pg_hba.conf:85)",
+      "id": "50dd9e40-4a29-4c44-bd45-3f6f181737ce",
+      "log_level": "LOG",
+      "timestamp": 1759937110342000
+    }
+  },
+  {
+    "timestamp": 1759937110341000,
+    "id": "69fadd11-7844-44af-822c-a7ec2d85665f",
+    "event_message": "connection received: host=::1 port=25287",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=::1 port=25287",
+      "id": "69fadd11-7844-44af-822c-a7ec2d85665f",
+      "log_level": "LOG",
+      "timestamp": 1759937110341000
+    }
+  },
+  {
+    "timestamp": 1759937086980000,
+    "id": "99774ca8-fee2-4fc0-8610-7c5f1709a482",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "99774ca8-fee2-4fc0-8610-7c5f1709a482",
+      "log_level": "LOG",
+      "timestamp": 1759937086980000
+    }
+  },
+  {
+    "timestamp": 1759937086980000,
+    "id": "5a7c8e42-81d3-41a5-9c6a-8bca57fecc14",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "5a7c8e42-81d3-41a5-9c6a-8bca57fecc14",
+      "log_level": "LOG",
+      "timestamp": 1759937086980000
+    }
+  },
+  {
+    "timestamp": 1759937086777000,
+    "id": "2cf81219-c26b-487d-8659-f6620f97460f",
+    "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=53942",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=53942",
+      "id": "2cf81219-c26b-487d-8659-f6620f97460f",
+      "log_level": "LOG",
+      "timestamp": 1759937086777000
+    }
+  },
+  {
+    "timestamp": 1759937084687000,
+    "id": "7e2e6269-25c8-4715-a679-1a3f60fddcb7",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "7e2e6269-25c8-4715-a679-1a3f60fddcb7",
+      "log_level": "LOG",
+      "timestamp": 1759937084687000
+    }
+  },
+  {
+    "timestamp": 1759937084687000,
+    "id": "59e1bff4-e2c1-4cb7-8074-d06d66bf1f08",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "59e1bff4-e2c1-4cb7-8074-d06d66bf1f08",
+      "log_level": "LOG",
+      "timestamp": 1759937084687000
+    }
+  },
+  {
+    "timestamp": 1759937084460000,
+    "id": "1e881bb1-54b9-4958-a9cb-1ba793692fcb",
+    "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=57112",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=57112",
+      "id": "1e881bb1-54b9-4958-a9cb-1ba793692fcb",
+      "log_level": "LOG",
+      "timestamp": 1759937084460000
+    }
+  },
+  {
+    "timestamp": 1759937081061000,
+    "id": "4c43a32d-8580-4f7a-b3c3-140a9c1bfc3f",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "4c43a32d-8580-4f7a-b3c3-140a9c1bfc3f",
+      "log_level": "LOG",
+      "timestamp": 1759937081061000
+    }
+  },
+  {
+    "timestamp": 1759937081060000,
+    "id": "7e355b82-238b-4129-81da-1f385e304584",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "7e355b82-238b-4129-81da-1f385e304584",
+      "log_level": "LOG",
+      "timestamp": 1759937081060000
+    }
+  },
+  {
+    "timestamp": 1759937080860000,
+    "id": "c097ae54-f3ed-4e70-ad87-9633312db7d5",
+    "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=41134",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=41134",
+      "id": "c097ae54-f3ed-4e70-ad87-9633312db7d5",
+      "log_level": "LOG",
+      "timestamp": 1759937080860000
+    }
+  },
+  {
+    "timestamp": 1759937080115000,
+    "id": "1ab46a8c-05cb-449f-bf8d-ed9930db6080",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "1ab46a8c-05cb-449f-bf8d-ed9930db6080",
+      "log_level": "LOG",
+      "timestamp": 1759937080115000
+    }
+  },
+  {
+    "timestamp": 1759937080115000,
+    "id": "85fe70ea-d787-4467-8143-46503c9ed801",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "85fe70ea-d787-4467-8143-46503c9ed801",
+      "log_level": "LOG",
+      "timestamp": 1759937080115000
+    }
+  },
+  {
+    "timestamp": 1759937079885000,
+    "id": "bee6e513-65a6-4d91-a05c-9ebc705acdaa",
+    "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=57110",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=57110",
+      "id": "bee6e513-65a6-4d91-a05c-9ebc705acdaa",
+      "log_level": "LOG",
+      "timestamp": 1759937079885000
+    }
+  },
+  {
+    "timestamp": 1759937078427000,
+    "id": "9ac8f171-8705-483c-9e4d-09d68dd270d3",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "9ac8f171-8705-483c-9e4d-09d68dd270d3",
+      "log_level": "LOG",
+      "timestamp": 1759937078427000
+    }
+  },
+  {
+    "timestamp": 1759937078427000,
+    "id": "ff39dbf4-7cde-49f7-ae9b-ad911300354a",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "ff39dbf4-7cde-49f7-ae9b-ad911300354a",
+      "log_level": "LOG",
+      "timestamp": 1759937078427000
+    }
+  },
+  {
+    "timestamp": 1759937078237000,
+    "id": "3840ad03-02ee-4011-b235-d8708b1a7452",
+    "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=41132",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=41132",
+      "id": "3840ad03-02ee-4011-b235-d8708b1a7452",
+      "log_level": "LOG",
+      "timestamp": 1759937078237000
+    }
+  },
+  {
+    "timestamp": 1759937077732000,
+    "id": "1478f71c-65f7-47c9-9609-7e2a042b30c4",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "1478f71c-65f7-47c9-9609-7e2a042b30c4",
+      "log_level": "LOG",
+      "timestamp": 1759937077732000
+    }
+  },
+  {
+    "timestamp": 1759937077732000,
+    "id": "8432bd57-3cc7-46ae-961d-953682b0ac1a",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "8432bd57-3cc7-46ae-961d-953682b0ac1a",
+      "log_level": "LOG",
+      "timestamp": 1759937077732000
+    }
+  },
+  {
+    "timestamp": 1759937077636000,
+    "id": "51637f5d-98a3-49ee-9871-f6303c24d7f0",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "51637f5d-98a3-49ee-9871-f6303c24d7f0",
+      "log_level": "LOG",
+      "timestamp": 1759937077636000
+    }
+  },
+  {
+    "timestamp": 1759937077636000,
+    "id": "6e937de0-30f9-44fe-aa5f-b101c1d1f18a",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "6e937de0-30f9-44fe-aa5f-b101c1d1f18a",
+      "log_level": "LOG",
+      "timestamp": 1759937077636000
+    }
+  },
+  {
+    "timestamp": 1759937077623000,
+    "id": "22e626f8-bd1d-42c7-89b1-fb88556c25ae",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "22e626f8-bd1d-42c7-89b1-fb88556c25ae",
+      "log_level": "LOG",
+      "timestamp": 1759937077623000
+    }
+  },
+  {
+    "timestamp": 1759937077623000,
+    "id": "56112d84-e336-4a34-b25f-3b2b07229edc",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "56112d84-e336-4a34-b25f-3b2b07229edc",
+      "log_level": "LOG",
+      "timestamp": 1759937077623000
+    }
+  },
+  {
+    "timestamp": 1759937077532000,
+    "id": "66584df5-3092-4853-9667-449c94000a9d",
+    "event_message": "connection received: host=2a05:d018:1e14:200:b5c7:c04d:11e1:dd2b port=56536",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:b5c7:c04d:11e1:dd2b port=56536",
+      "id": "66584df5-3092-4853-9667-449c94000a9d",
+      "log_level": "LOG",
+      "timestamp": 1759937077532000
+    }
+  },
+  {
+    "timestamp": 1759937077436000,
+    "id": "9139b2b6-8561-4a4f-9fa8-8868194b710e",
+    "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=57096",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=57096",
+      "id": "9139b2b6-8561-4a4f-9fa8-8868194b710e",
+      "log_level": "LOG",
+      "timestamp": 1759937077436000
+    }
+  },
+  {
+    "timestamp": 1759937077404000,
+    "id": "b274306f-eab6-4173-b90f-58438273aa91",
+    "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=57086",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=57086",
+      "id": "b274306f-eab6-4173-b90f-58438273aa91",
+      "log_level": "LOG",
+      "timestamp": 1759937077404000
+    }
+  },
+  {
+    "timestamp": 1759937075389000,
+    "id": "9b44a305-3afc-474e-bc02-54c16f4d8c6d",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "9b44a305-3afc-474e-bc02-54c16f4d8c6d",
+      "log_level": "LOG",
+      "timestamp": 1759937075389000
+    }
+  },
+  {
+    "timestamp": 1759937075389000,
+    "id": "701dbba2-a774-4128-b6ee-bf8cf549b0d1",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "701dbba2-a774-4128-b6ee-bf8cf549b0d1",
+      "log_level": "LOG",
+      "timestamp": 1759937075389000
+    }
+  },
+  {
+    "timestamp": 1759937075178000,
+    "id": "3ad94e60-ebcf-43ad-8508-68914c8ccf50",
+    "event_message": "connection received: host=2a05:d018:1e14:200:b5c7:c04d:11e1:dd2b port=57872",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:b5c7:c04d:11e1:dd2b port=57872",
+      "id": "3ad94e60-ebcf-43ad-8508-68914c8ccf50",
+      "log_level": "LOG",
+      "timestamp": 1759937075178000
+    }
+  },
+  {
+    "timestamp": 1759937072352000,
+    "id": "66378e54-fe83-4ca1-bea5-a522790d5421",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "66378e54-fe83-4ca1-bea5-a522790d5421",
+      "log_level": "LOG",
+      "timestamp": 1759937072352000
+    }
+  },
+  {
+    "timestamp": 1759937072352000,
+    "id": "d6896e04-6237-4faf-86c3-c0c8954ee34e",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "d6896e04-6237-4faf-86c3-c0c8954ee34e",
+      "log_level": "LOG",
+      "timestamp": 1759937072352000
+    }
+  },
+  {
+    "timestamp": 1759937072155000,
+    "id": "abfbb07b-3997-4e83-bdda-244ed9ff1ac9",
+    "event_message": "connection received: host=2a05:d018:1e14:200:b5c7:c04d:11e1:dd2b port=57870",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:b5c7:c04d:11e1:dd2b port=57870",
+      "id": "abfbb07b-3997-4e83-bdda-244ed9ff1ac9",
+      "log_level": "LOG",
+      "timestamp": 1759937072155000
+    }
+  },
+  {
+    "timestamp": 1759937071494000,
+    "id": "85ad8f65-e6b0-425d-b806-db61b236c007",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "85ad8f65-e6b0-425d-b806-db61b236c007",
+      "log_level": "LOG",
+      "timestamp": 1759937071494000
+    }
+  },
+  {
+    "timestamp": 1759937071494000,
+    "id": "3936dadf-9936-4ecd-b167-980b15999296",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "3936dadf-9936-4ecd-b167-980b15999296",
+      "log_level": "LOG",
+      "timestamp": 1759937071494000
+    }
+  },
+  {
+    "timestamp": 1759937071303000,
+    "id": "cecd8393-cb7c-4459-b44e-e70095ab7ec5",
+    "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=50124",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=50124",
+      "id": "cecd8393-cb7c-4459-b44e-e70095ab7ec5",
+      "log_level": "LOG",
+      "timestamp": 1759937071303000
+    }
+  },
+  {
+    "timestamp": 1759937070319000,
+    "id": "7687915c-bf55-4b7f-a023-255cb1b19603",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "7687915c-bf55-4b7f-a023-255cb1b19603",
+      "log_level": "LOG",
+      "timestamp": 1759937070319000
+    }
+  },
+  {
+    "timestamp": 1759937070319000,
+    "id": "877b8d26-72a1-42c5-a487-d3d94131590b",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "877b8d26-72a1-42c5-a487-d3d94131590b",
+      "log_level": "LOG",
+      "timestamp": 1759937070319000
+    }
+  },
+  {
+    "timestamp": 1759937070287000,
+    "id": "6f5bd8f8-320a-4622-bd7a-145b09ac52d7",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "6f5bd8f8-320a-4622-bd7a-145b09ac52d7",
+      "log_level": "LOG",
+      "timestamp": 1759937070287000
+    }
+  },
+  {
+    "timestamp": 1759937070287000,
+    "id": "343290a7-c3bc-4491-8c9e-7d857f25ce15",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "343290a7-c3bc-4491-8c9e-7d857f25ce15",
+      "log_level": "LOG",
+      "timestamp": 1759937070287000
+    }
+  },
+  {
+    "timestamp": 1759937070122000,
+    "id": "ae7ad121-6103-4e87-b4ec-d9039ea87d0d",
+    "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=34118",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=34118",
+      "id": "ae7ad121-6103-4e87-b4ec-d9039ea87d0d",
+      "log_level": "LOG",
+      "timestamp": 1759937070122000
+    }
+  },
+  {
+    "timestamp": 1759937070071000,
+    "id": "e72f9d55-a1ba-44f1-99f2-8aa512168dd3",
+    "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=34102",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=34102",
+      "id": "e72f9d55-a1ba-44f1-99f2-8aa512168dd3",
+      "log_level": "LOG",
+      "timestamp": 1759937070071000
+    }
+  },
+  {
+    "timestamp": 1759937068648000,
+    "id": "d2ea0c3e-2e92-4f98-888b-a038a9122097",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "d2ea0c3e-2e92-4f98-888b-a038a9122097",
+      "log_level": "LOG",
+      "timestamp": 1759937068648000
+    }
+  },
+  {
+    "timestamp": 1759937068648000,
+    "id": "1ebc2c54-499f-4e72-95b6-8944534b7399",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "1ebc2c54-499f-4e72-95b6-8944534b7399",
+      "log_level": "LOG",
+      "timestamp": 1759937068648000
+    }
+  },
+  {
+    "timestamp": 1759937068107000,
+    "id": "a9a6d954-213f-43cc-a4c7-61e40bd882a5",
+    "event_message": "connection received: host=2600:1f18:2a66:6e01:10ed:eca4:4e4c:f110 port=48840",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2600:1f18:2a66:6e01:10ed:eca4:4e4c:f110 port=48840",
+      "id": "a9a6d954-213f-43cc-a4c7-61e40bd882a5",
+      "log_level": "LOG",
+      "timestamp": 1759937068107000
+    }
+  },
+  {
+    "timestamp": 1759937066998000,
+    "id": "9d42cc3e-c16b-43c2-8060-87e3d7fe65b1",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "9d42cc3e-c16b-43c2-8060-87e3d7fe65b1",
+      "log_level": "LOG",
+      "timestamp": 1759937066998000
+    }
+  },
+  {
+    "timestamp": 1759937066998000,
+    "id": "7d2c29b1-2e37-4e00-8150-d5fd4bf238da",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "7d2c29b1-2e37-4e00-8150-d5fd4bf238da",
+      "log_level": "LOG",
+      "timestamp": 1759937066998000
+    }
+  },
+  {
+    "timestamp": 1759937066726000,
+    "id": "1a4607d2-7a9f-4179-9ed5-c6a4d6658a0e",
+    "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=34090",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:6c05:6d13:e332:89b port=34090",
+      "id": "1a4607d2-7a9f-4179-9ed5-c6a4d6658a0e",
+      "log_level": "LOG",
+      "timestamp": 1759937066726000
+    }
+  },
+  {
+    "timestamp": 1759937066011000,
+    "id": "41dd3202-3f06-454c-ad76-215a73962001",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "41dd3202-3f06-454c-ad76-215a73962001",
+      "log_level": "LOG",
+      "timestamp": 1759937066011000
+    }
+  },
+  {
+    "timestamp": 1759937066011000,
+    "id": "f87a9781-755f-4bdc-a67c-f50b252f004d",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "f87a9781-755f-4bdc-a67c-f50b252f004d",
+      "log_level": "LOG",
+      "timestamp": 1759937066011000
+    }
+  },
+  {
+    "timestamp": 1759937065806000,
+    "id": "6272e879-f969-46b7-b17e-e5b275a20bf3",
+    "event_message": "connection received: host=2a05:d018:1e14:200:b5c7:c04d:11e1:dd2b port=42104",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:b5c7:c04d:11e1:dd2b port=42104",
+      "id": "6272e879-f969-46b7-b17e-e5b275a20bf3",
+      "log_level": "LOG",
+      "timestamp": 1759937065806000
+    }
+  },
+  {
+    "timestamp": 1759937062158000,
+    "id": "4dd23018-9398-4a56-bafe-4a6021651bd4",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "4dd23018-9398-4a56-bafe-4a6021651bd4",
+      "log_level": "LOG",
+      "timestamp": 1759937062158000
+    }
+  },
+  {
+    "timestamp": 1759937062158000,
+    "id": "c9e3a140-388d-47a8-8caa-46e5f68fb954",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "c9e3a140-388d-47a8-8caa-46e5f68fb954",
+      "log_level": "LOG",
+      "timestamp": 1759937062158000
+    }
+  },
+  {
+    "timestamp": 1759937061907000,
+    "id": "1c8274be-71cc-4c87-8b14-7034292cf56f",
+    "event_message": "connection received: host=2a05:d018:1e14:201:39cd:f8dd:e1fb:2cfa port=54814",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:39cd:f8dd:e1fb:2cfa port=54814",
+      "id": "1c8274be-71cc-4c87-8b14-7034292cf56f",
+      "log_level": "LOG",
+      "timestamp": 1759937061907000
+    }
+  },
+  {
+    "timestamp": 1759937061265000,
+    "id": "10ecbd39-eac8-4187-ba0e-bfb7dc2c0392",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "10ecbd39-eac8-4187-ba0e-bfb7dc2c0392",
+      "log_level": "LOG",
+      "timestamp": 1759937061265000
+    }
+  },
+  {
+    "timestamp": 1759937061264000,
+    "id": "70a1c702-d886-4c77-a332-7a22a3d03fee",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "70a1c702-d886-4c77-a332-7a22a3d03fee",
+      "log_level": "LOG",
+      "timestamp": 1759937061264000
+    }
+  },
+  {
+    "timestamp": 1759937061055000,
+    "id": "3ed929c2-6f1a-448a-a151-9fe75f425ffe",
+    "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=46738",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=46738",
+      "id": "3ed929c2-6f1a-448a-a151-9fe75f425ffe",
+      "log_level": "LOG",
+      "timestamp": 1759937061055000
+    }
+  },
+  {
+    "timestamp": 1759937059622000,
+    "id": "0b07404d-d9d5-43a8-893d-31607570c24c",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "0b07404d-d9d5-43a8-893d-31607570c24c",
+      "log_level": "LOG",
+      "timestamp": 1759937059622000
+    }
+  },
+  {
+    "timestamp": 1759937059622000,
+    "id": "a4224c1b-4bd8-42d8-86e5-18cea35ffe30",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "a4224c1b-4bd8-42d8-86e5-18cea35ffe30",
+      "log_level": "LOG",
+      "timestamp": 1759937059622000
+    }
+  },
+  {
+    "timestamp": 1759937058404000,
+    "id": "aad7bfcd-748b-49fc-a86a-8f3dc6a1803c",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "aad7bfcd-748b-49fc-a86a-8f3dc6a1803c",
+      "log_level": "LOG",
+      "timestamp": 1759937058404000
+    }
+  },
+  {
+    "timestamp": 1759937058403000,
+    "id": "bbe41d80-ebc4-4815-a362-838a080497c3",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "bbe41d80-ebc4-4815-a362-838a080497c3",
+      "log_level": "LOG",
+      "timestamp": 1759937058403000
+    }
+  },
+  {
+    "timestamp": 1759937058400000,
+    "id": "c64fc27a-a9b0-4b6c-aed7-0825d7867c97",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "c64fc27a-a9b0-4b6c-aed7-0825d7867c97",
+      "log_level": "LOG",
+      "timestamp": 1759937058400000
+    }
+  },
+  {
+    "timestamp": 1759937058400000,
+    "id": "c048e9a4-b2d2-464d-94c9-6c072e56a25f",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "c048e9a4-b2d2-464d-94c9-6c072e56a25f",
+      "log_level": "LOG",
+      "timestamp": 1759937058400000
+    }
+  },
+  {
+    "timestamp": 1759937058398000,
+    "id": "92f362e5-5760-47ee-9da3-0467fe97131f",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "92f362e5-5760-47ee-9da3-0467fe97131f",
+      "log_level": "LOG",
+      "timestamp": 1759937058398000
+    }
+  },
+  {
+    "timestamp": 1759937058398000,
+    "id": "d71dc7e9-b607-410c-8ce7-15c2ce2a67ff",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "d71dc7e9-b607-410c-8ce7-15c2ce2a67ff",
+      "log_level": "LOG",
+      "timestamp": 1759937058398000
+    }
+  },
+  {
+    "timestamp": 1759937058198000,
+    "id": "b158d09e-543f-475d-b7f8-fb7b23856d20",
+    "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=46726",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=46726",
+      "id": "b158d09e-543f-475d-b7f8-fb7b23856d20",
+      "log_level": "LOG",
+      "timestamp": 1759937058198000
+    }
+  },
+  {
+    "timestamp": 1759937058198000,
+    "id": "a41916c6-dec2-4d00-adf8-fbb3dd109557",
+    "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=58828",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=58828",
+      "id": "a41916c6-dec2-4d00-adf8-fbb3dd109557",
+      "log_level": "LOG",
+      "timestamp": 1759937058198000
+    }
+  },
+  {
+    "timestamp": 1759937058196000,
+    "id": "ef708b90-625e-4d1a-9f17-c45808e98645",
+    "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=58816",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=58816",
+      "id": "ef708b90-625e-4d1a-9f17-c45808e98645",
+      "log_level": "LOG",
+      "timestamp": 1759937058196000
+    }
+  },
+  {
+    "timestamp": 1759937055980000,
+    "id": "82c24b1f-e5fe-445d-8721-e08ae58004b8",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "82c24b1f-e5fe-445d-8721-e08ae58004b8",
+      "log_level": "LOG",
+      "timestamp": 1759937055980000
+    }
+  },
+  {
+    "timestamp": 1759937055980000,
+    "id": "0053734d-a26d-46e0-89ee-f3f2b1f5c891",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "0053734d-a26d-46e0-89ee-f3f2b1f5c891",
+      "log_level": "LOG",
+      "timestamp": 1759937055980000
+    }
+  },
+  {
+    "timestamp": 1759937055755000,
+    "id": "1f1978a5-9d74-45db-9522-a5b01d9b4ce5",
+    "event_message": "connection received: host=2a05:d018:1e14:201:39cd:f8dd:e1fb:2cfa port=54808",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:39cd:f8dd:e1fb:2cfa port=54808",
+      "id": "1f1978a5-9d74-45db-9522-a5b01d9b4ce5",
+      "log_level": "LOG",
+      "timestamp": 1759937055755000
+    }
+  },
+  {
+    "timestamp": 1759937053874000,
+    "id": "0a4f9fe9-93be-4054-9614-a5db1435f261",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "0a4f9fe9-93be-4054-9614-a5db1435f261",
+      "log_level": "LOG",
+      "timestamp": 1759937053874000
+    }
+  },
+  {
+    "timestamp": 1759937053874000,
+    "id": "764cc3b3-0eb9-491e-8255-241f51dc7eb9",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "764cc3b3-0eb9-491e-8255-241f51dc7eb9",
+      "log_level": "LOG",
+      "timestamp": 1759937053874000
+    }
+  },
+  {
+    "timestamp": 1759937052979000,
+    "id": "530d0d5b-ed9f-4b7c-9b6b-2a34aa9b9813",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "530d0d5b-ed9f-4b7c-9b6b-2a34aa9b9813",
+      "log_level": "LOG",
+      "timestamp": 1759937052979000
+    }
+  },
+  {
+    "timestamp": 1759937052979000,
+    "id": "8a40219a-99bd-4dee-bff6-48f4a2b9cf62",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "8a40219a-99bd-4dee-bff6-48f4a2b9cf62",
+      "log_level": "LOG",
+      "timestamp": 1759937052979000
+    }
+  },
+  {
+    "timestamp": 1759937052776000,
+    "id": "82364f2c-5d0d-4d51-8778-807352770805",
+    "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=35548",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:200:5c3c:d5d4:e0ff:5a09 port=35548",
+      "id": "82364f2c-5d0d-4d51-8778-807352770805",
+      "log_level": "LOG",
+      "timestamp": 1759937052776000
+    }
+  },
+  {
+    "timestamp": 1759937051287000,
+    "id": "ca896667-70cd-4abd-ae85-9cb8bdd0984c",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "ca896667-70cd-4abd-ae85-9cb8bdd0984c",
+      "log_level": "LOG",
+      "timestamp": 1759937051287000
+    }
+  },
+  {
+    "timestamp": 1759937051287000,
+    "id": "5c28fa27-cd2b-4a75-a8eb-4755d540606a",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "5c28fa27-cd2b-4a75-a8eb-4755d540606a",
+      "log_level": "LOG",
+      "timestamp": 1759937051287000
+    }
+  },
+  {
+    "timestamp": 1759937051272000,
+    "id": "ae3ec2e7-b16a-45ac-8657-0b4f1726d62a",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "ae3ec2e7-b16a-45ac-8657-0b4f1726d62a",
+      "log_level": "LOG",
+      "timestamp": 1759937051272000
+    }
+  },
+  {
+    "timestamp": 1759937051272000,
+    "id": "6fd194a2-0d55-4bec-ad0d-6bd4460c7dd0",
+    "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: identity=\"supabase_read_only_user\" method=scram-sha-256 (/etc/postgresql/pg_hba.conf:94)",
+      "id": "6fd194a2-0d55-4bec-ad0d-6bd4460c7dd0",
+      "log_level": "LOG",
+      "timestamp": 1759937051272000
+    }
+  },
+  {
+    "timestamp": 1759937051089000,
+    "id": "0b0f4125-f0f6-4c44-9241-2dbcd25736c8",
+    "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=34218",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:5549:4e45:2c89:5985 port=34218",
+      "id": "0b0f4125-f0f6-4c44-9241-2dbcd25736c8",
+      "log_level": "LOG",
+      "timestamp": 1759937051089000
+    }
+  },
+  {
+    "timestamp": 1759937051056000,
+    "id": "efb6cdc4-d68f-4e9f-8aaa-940714d6792f",
+    "event_message": "connection received: host=2a05:d018:1e14:201:39cd:f8dd:e1fb:2cfa port=51666",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection received: host=2a05:d018:1e14:201:39cd:f8dd:e1fb:2cfa port=51666",
+      "id": "efb6cdc4-d68f-4e9f-8aaa-940714d6792f",
+      "log_level": "LOG",
+      "timestamp": 1759937051056000
+    }
+  },
+  {
+    "timestamp": 1759937050352000,
+    "id": "cbef39c4-209c-4450-9d52-bf53f71144be",
+    "event_message": "connection authenticated: user=\"supabase_admin\" method=trust (/etc/postgresql/pg_hba.conf:85)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authenticated: user=\"supabase_admin\" method=trust (/etc/postgresql/pg_hba.conf:85)",
+      "id": "cbef39c4-209c-4450-9d52-bf53f71144be",
+      "log_level": "LOG",
+      "timestamp": 1759937050352000
+    }
+  },
+  {
+    "timestamp": 1759937050352000,
+    "id": "6b1dc37c-c160-4b9f-9aa3-2e33380221c0",
+    "event_message": "connection authorized: user=supabase_admin database=postgres application_name=postgres_exporter",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_admin database=postgres application_name=postgres_exporter",
+      "id": "6b1dc37c-c160-4b9f-9aa3-2e33380221c0",
+      "log_level": "LOG",
+      "timestamp": 1759937050352000
+    }
+  },
+  {
+    "timestamp": 1759937048950000,
+    "id": "ae65e32f-d6a2-409a-88c9-d862fdda84b1",
+    "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+    "log_level": "LOG",
+    "details": {
+      "event_message": "connection authorized: user=supabase_read_only_user database=postgres application_name=undefined SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)",
+      "id": "ae65e32f-d6a2-409a-88c9-d862fdda84b1",
+      "log_level": "LOG",
+      "timestamp": 1759937048950000
+    }
+  }
+]

@@ -5,7 +5,8 @@ import { useAdminRole } from '@/hooks/useAdminRole';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Users, FileText, Flag, Shield, BarChart3, Database } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
+import { Search } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { isAdmin, isLoading } = useAdminRole();
@@ -152,6 +153,10 @@ export default function AdminDashboard() {
                 <Users className="mr-2 h-4 w-4" />
                 Manage Users
               </Button>
+              <Button onClick={() => navigate('/admin/users/search')} className="justify-start">
+                <Search className="mr-2 h-4 w-4" />
+                Search Users
+              </Button>
               <Button onClick={() => navigate('/admin/content')} className="justify-start">
                 <FileText className="mr-2 h-4 w-4" />
                 Review Content
@@ -163,6 +168,11 @@ export default function AdminDashboard() {
               <Button onClick={() => navigate('/admin/analytics')} className="justify-start">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 View Analytics
+              </Button>
+              {/* New bootstrap action */}
+              <Button variant="secondary" onClick={() => navigate('/admin/bootstrap')} className="justify-start">
+                <Shield className="mr-2 h-4 w-4" />
+                Bootstrap Super Admin
               </Button>
             </CardContent>
           </Card>

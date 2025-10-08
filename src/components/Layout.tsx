@@ -125,6 +125,12 @@ const Layout = ({ children }: LayoutProps) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem disabled>Settings</DropdownMenuItem>
+                {user && (
+                  <DropdownMenuItem onClick={() => navigate("/admin/bootstrap")}>
+                    <Shield className="mr-2 h-4 w-4" />
+                    Bootstrap Super Admin
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
 

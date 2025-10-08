@@ -1,0 +1,9 @@
+id;user_id;category_id;native_word;translation;notes;audio_url;image_url;created_at;updated_at;language_id;is_public
+8daaa5ee-22a2-4404-9ca3-5bdc034c47c6;188866b9-b97e-41bb-bb17-37b37181129c;;dope;fun;;;;2025-10-05 07:58:34.400672+00;2025-10-05 07:58:34.400672+00;e0a7007f-0cff-48c2-8b43-cd3771210784;false
+7f9dea2e-f242-48d6-bf4f-49445e89b266;188866b9-b97e-41bb-bb17-37b37181129c;;ee;rer;;;;2025-10-05 07:58:53.444014+00;2025-10-05 07:58:53.444014+00;e0a7007f-0cff-48c2-8b43-cd3771210784;true
+576a6c54-b4b4-46c0-b731-19373935ee7d;f5d5c60c-d200-4bf3-9e7b-280fe675346c;cd411bcb-9632-4e88-a9c0-e664b39f1c84;Bonjour;Hello;;;;2025-10-05 17:02:22.48127+00;2025-10-05 17:02:22.48127+00;;false
+4dca8ca7-1683-4547-b4cb-fbaa999c107a;4cab89db-5d84-4ec7-87c3-f05e55d2be8f;;Uno;One;;;;2025-10-05 17:12:20.912684+00;2025-10-05 17:12:20.912684+00;1dcec268-e2f2-4d20-88af-3657b1511a92;false
+3ef7b705-e204-48c8-8b9b-10813c7aba9f;4cab89db-5d84-4ec7-87c3-f05e55d2be8f;329fcb28-67d7-4535-a0e4-37847a3f37a0;Deux;Two;;;;2025-10-05 18:41:26.57028+00;2025-10-05 18:41:26.57028+00;;false
+25d909bf-48fc-4684-8d3b-9952b5a46a5b;4cab89db-5d84-4ec7-87c3-f05e55d2be8f;;Merci;Thank you ;;;;2025-10-05 18:43:57.659521+00;2025-10-05 18:43:57.659521+00;2828864d-2029-4727-86ae-8b31dd91decf;true
+437cf6df-6ac7-41da-8536-4dd59b35ce35;973de919-1e9d-43de-be7d-149c79f4299e;;ami;water;;;;2025-10-06 10:49:52.776119+00;2025-10-06 10:49:52.776119+00;;false
+356051c9-8094-4d2d-a914-bf4fd550376e;973de919-1e9d-43de-be7d-149c79f4299e;;ndjira;fish;;https://www.youtube.com/watch?v=sSVl2JReVSg;https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.rgsgroup.co.za%2Fmo-shop27%2Feducational-range%2Feducational-skill-builders%2Fworld-globe-30cm%2F&psig=AOvVaw2-27jHDFQkL7vqEAsLn83z&ust=1759834953996000&source=images&cd=vfe&opi=89978449&ved=0CBgQjhxqFwoTCPCvyPa1j5ADFQAAAAAdAAAAABAE;2025-10-06 11:03:30.457691+00;2025-10-06 11:03:30.457691+00;b446bba4-e6d5-4e08-9d1b-408f33412f44;true

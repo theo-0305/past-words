@@ -25,6 +25,8 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserManagement from "./pages/admin/UserManagement";
 import ContentModeration from "./pages/admin/ContentModeration";
+import UserSearch from "./pages/admin/UserSearch";
+import BootstrapSuperAdmin from "./pages/admin/BootstrapSuperAdmin";
 
 const queryClient = new QueryClient();
 
@@ -110,7 +112,9 @@ const App = () => (
           <Route path="/community" element={<Community />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<UserManagement />} />
+          <Route path="/admin/users/search" element={<UserSearch />} />
           <Route path="/admin/content" element={<ContentModeration />} />
+          <Route path="/admin/bootstrap" element={<BootstrapSuperAdmin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

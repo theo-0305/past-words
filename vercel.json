@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    { "source": "/reset-password", "destination": "/index.html" },
+    { "source": "/forgot-password", "destination": "/index.html" },
+    { "source": "/dashboard", "destination": "/index.html" },
+    { "source": "/words", "destination": "/index.html" },
+    { "source": "/add-word", "destination": "/index.html" },
+    { "source": "/add-content", "destination": "/index.html" },
+    { "source": "/edit-word/(.*)", "destination": "/index.html" },
+    { "source": "/word/(.*)", "destination": "/index.html" },
+    { "source": "/categories", "destination": "/index.html" },
+    { "source": "/practice", "destination": "/index.html" },
+    { "source": "/community", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

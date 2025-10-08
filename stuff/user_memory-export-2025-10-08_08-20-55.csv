@@ -1,0 +1,42 @@
+id;user_id;conversation_id;role;content;metadata;created_at
+882cbaae-50a5-4d08-94e9-48834d2758d5;188866b9-b97e-41bb-bb17-37b37181129c;c563e39a-31c9-48c4-b39e-05768d667f18;user;Hello! I'm new here.;"{""page"":""/add-content""}";2025-10-05 08:11:25.333956+00
+23fe830c-c56c-444c-8b36-8e08e945a1df;188866b9-b97e-41bb-bb17-37b37181129c;c563e39a-31c9-48c4-b39e-05768d667f18;assistant;"Welcome to LinguaVault! I'm excited to help you preserve endangered languages. You're currently on the Add Content page, which is a great place to start.
+
+Here's what you can do:
+- Add individual words with translations and audio recordings
+- Create phrases and example sentences
+- Organize content into categories (like ""Family Terms"" or ""Daily Life"")
+- Upload cultural stories or conversations
+
+Would you like to start by adding a word or phrase? I can guide you through the process step by step. What language are you interested in documenting?";;2025-10-05 08:11:25.333956+00
+43e65b7f-06df-493b-bd7b-d93df2e1b02f;188866b9-b97e-41bb-bb17-37b37181129c;36303b69-72f9-4042-9495-736254291ccd;user;Hello! I'm new here.;"{""page"":""/add-content""}";2025-10-05 08:14:01.030646+00
+da709332-47fb-45c3-be8a-a4e24c7a0083;188866b9-b97e-41bb-bb17-37b37181129c;36303b69-72f9-4042-9495-736254291ccd;assistant;"Welcome to LinguaVault! I'm excited to help you preserve endangered languages. You're currently on the Add Content page, which is a great place to start.
+
+Here's what you can do:
+- Add individual words with translations and audio recordings
+- Create phrase collections or lesson materials
+- Organize content into categories (e.g., greetings, food, family terms)
+
+Would you like to start by adding a word from an endangered language you know? I can guide you through the process step by step.
+
+What language are you interested in documenting?";;2025-10-05 08:14:01.030646+00
+92da6f7a-c8f9-4599-a67a-57bc7e8be239;188866b9-b97e-41bb-bb17-37b37181129c;d2881749-94ad-4939-bc33-cc997b738e57;user;Hello! I'm new here.;"{""page"":""/add-content""}";2025-10-05 08:18:10.841174+00
+13b0fe97-2c70-47b8-8110-983723bac112;188866b9-b97e-41bb-bb17-37b37181129c;d2881749-94ad-4939-bc33-cc997b738e57;assistant;"Welcome to LinguaVault! 👋 I can see you're just getting started on your language preservation journey, and you've already added your first two words - that's fantastic!
+
+LinguaVault is designed to help preserve and document endangered languages. I notice you're currently on the Add Content page, and you've already begun contributing to the community - that's wonderful!
+
+Here's a quick overview of what you can do here:
+1. 📝 Add words & translations (you've added ""ee"" and ""dope"" so far)
+2. 🎯 Organize with categories (I see you haven't created any yet - this would be a great next step!)
+3. 📸 Upload rich content like audio, videos, or cultural information
+4. 👥 Share with the community (you've already shared one item - great start!)
+
+Would you like me to guide you through setting up your first category to organize your words? Or would you prefer to explore another feature? I'm here to help with whatever interests you most!
+
+Some recommended next steps:
+- Create categories to organize your words
+- Add audio recordings to your existing words
+- Practice with your saved words
+- Upload cultural content
+
+What would you like to explore first?";;2025-10-05 08:18:10.841174+00
