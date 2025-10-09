@@ -40,59 +40,74 @@ const Community = () => {
   });
 
   // Fetch public community content
-  const { data: communityContent, isLoading } = useQuery({
+  const { data: communityContent, isLoading, error: communityError } = useQuery({
     queryKey: ["community-content", selectedLanguage, selectedContentType, searchQuery],
     queryFn: async () => {
       let query = supabase
         .from("community_content")
         .select(`
           *,
-          languages (name, code),
+          languages!community_content_language_id_fkey (name, code),
           profiles!community_content_user_id_fkey (display_name)
         `)
         .eq("is_public", true);
-
+  
       if (selectedLanguage !== "all") {
         query = query.eq("language_id", selectedLanguage);
       }
-
+  
       if (selectedContentType !== "all") {
         query = query.eq("content_type", selectedContentType as any);
       }
-
+  
       if (searchQuery) {
         query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
       }
-
+  
       const { data, error } = await query.order("created_at", { ascending: false });
-      if (error) throw error;
+      if (error) {
+        console.error("[Community] community_content query error", error);
+        throw error;
+      }
+      console.log("[Community] community_content count", data?.length ?? 0, {
+        selectedLanguage,
+        selectedContentType,
+        searchQuery,
+      });
       return data;
     },
   });
 
   // Fetch public words
-  const { data: publicWords } = useQuery({
+  const { data: publicWords, error: wordsError } = useQuery({
     queryKey: ["public-words", selectedLanguage, searchQuery],
     queryFn: async () => {
       let query = supabase
         .from("words")
         .select(`
           *,
-          languages (name, code),
+          languages!words_language_id_fkey (name, code),
           profiles!words_user_id_fkey (display_name)
         `)
         .eq("is_public", true);
-
+  
       if (selectedLanguage !== "all") {
         query = query.eq("language_id", selectedLanguage);
       }
-
+  
       if (searchQuery) {
         query = query.or(`native_word.ilike.%${searchQuery}%,translation.ilike.%${searchQuery}%`);
       }
-
+  
       const { data, error } = await query.order("created_at", { ascending: false });
-      if (error) throw error;
+      if (error) {
+        console.error("[Community] words query error", error);
+        throw error;
+      }
+      console.log("[Community] public_words count", data?.length ?? 0, {
+        selectedLanguage,
+        searchQuery,
+      });
       return data;
     },
   });
@@ -159,6 +174,16 @@ const Community = () => {
               <SelectItem value="article">Articles</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Debug banner */}
+        <div className="mb-4 text-xs text-muted-foreground">
+          <span>community_content: {communityContent?.length ?? 0}</span>
+          <span className="mx-2">|</span>
+          <span>public_words: {publicWords?.length ?? 0}</span>
+          {(communityError || wordsError) && (
+            <span className="ml-2 text-red-600">error: {(communityError as any)?.message || (wordsError as any)?.message}</span>
+          )}
         </div>
 
         {/* Content Grid */}

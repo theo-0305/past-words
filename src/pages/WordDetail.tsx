@@ -52,7 +52,7 @@ const WordDetail = () => {
           translation,
           notes,
           created_at,
-          categories (
+          categories!words_category_id_fkey (
             name
           )
         `)

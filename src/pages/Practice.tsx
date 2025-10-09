@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import { Card } from "@/components/ui/card";
@@ -13,7 +13,17 @@ interface Word {
   translation: string;
 }
 
+// Navigation state for language-specific practice
+interface PracticeNavState {
+  languageName?: string;
+  practiceVocab?: Array<{ native: string; translation: string }>;
+}
+
 const Practice = () => {
+  const location = useLocation();
+  const navState = (location.state as PracticeNavState | undefined) || undefined;
+  const [languageTitle, setLanguageTitle] = useState<string>(navState?.languageName || "");
+
   const [words, setWords] = useState<Word[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showTranslation, setShowTranslation] = useState(false);
@@ -22,7 +32,16 @@ const Practice = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchWords();
+    // If we have language-specific vocabulary from navigation state, use it
+    if (navState?.practiceVocab && navState.practiceVocab.length > 0) {
+      const webWords: Word[] = navState.practiceVocab
+        .map((v, idx) => ({ id: String(idx), native_word: v.native, translation: v.translation }))
+        .sort(() => Math.random() - 0.5);
+      setWords(webWords);
+      setLoading(false);
+    } else {
+      fetchWords();
+    }
   }, []);
 
   const fetchWords = async () => {
@@ -58,7 +77,15 @@ const Practice = () => {
   const handleRestart = () => {
     setCurrentIndex(0);
     setShowTranslation(false);
-    fetchWords();
+    // Reshuffle based on source
+    if (navState?.practiceVocab && navState.practiceVocab.length > 0) {
+      const webWords: Word[] = navState.practiceVocab
+        .map((v, idx) => ({ id: String(idx), native_word: v.native, translation: v.translation }))
+        .sort(() => Math.random() - 0.5);
+      setWords(webWords);
+    } else {
+      fetchWords();
+    }
   };
 
   const currentWord = words[currentIndex];
@@ -89,8 +116,8 @@ const Practice = () => {
         </Button>
 
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-foreground mb-2">Practice Mode</h2>
-          <p className="text-muted-foreground">Test your knowledge of the vocabulary</p>
+          <h2 className="text-4xl font-bold text-foreground mb-2">{languageTitle ? `Practice Mode: ${languageTitle}` : "Practice Mode"}</h2>
+          <p className="text-muted-foreground">{languageTitle ? "Practicing web-sourced vocabulary" : "Test your knowledge of the vocabulary"}</p>
         </div>
 
         {words.length === 0 ? (

@@ -33,30 +33,49 @@ const Dashboard = () => {
 
   const fetchWords = async () => {
     try {
-      const { data, error } = await supabase
-        .from("words")
-        .select(`
-          id,
-          native_word,
-          translation,
-          category_id,
-          created_at,
-          categories (
-            name
-          )
-        `)
-        .order("created_at", { ascending: false })
-        .limit(5);
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData?.session;
 
+      let query = supabase.from("words");
+
+      if (session) {
+        query = query
+          .select(`
+            id,
+            native_word,
+            translation,
+            category_id,
+            created_at,
+            categories!words_category_id_fkey (
+              name
+            )
+          `)
+          .order("created_at", { ascending: false })
+          .limit(5);
+      } else {
+        // Anonymous users: restrict to public words and avoid category embed to satisfy RLS
+        query = query
+          .select("id,native_word,translation,created_at")
+          .eq("is_public", true)
+          .order("created_at", { ascending: false })
+          .limit(5);
+      }
+
+      const { data, error } = await query;
       if (error) throw error;
 
       setWords(data || []);
-      
-      // Get total count
-      const { count } = await supabase
+
+      // Total count depends on auth (public-only for anon)
+      let countQuery = supabase
         .from("words")
         .select("*", { count: "exact", head: true });
-      
+      if (!session) {
+        countQuery = countQuery.eq("is_public", true);
+      }
+      const { count, error: countErr } = await countQuery;
+      if (countErr) throw countErr;
+
       setTotalWords(count || 0);
     } catch (error: any) {
       toast({

@@ -1,13 +1,20 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+// using Deno.serve (no import needed)
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Max-Age": "86400",
 };
 
-serve(async (req) => {
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    // Return 200 OK with CORS headers for preflight
+    return new Response("ok", { headers: corsHeaders });
+  }
+
+  if (req.method !== "POST") {
+    return new Response("Method Not Allowed", { status: 405, headers: corsHeaders });
   }
 
   try {
@@ -19,110 +26,49 @@ serve(async (req) => {
 
     console.log(`Fetching information for language: ${languageName}`);
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    // Fetch real content from Wikipedia Summary API
+    async function fetchWiki(title: string) {
+      const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}?redirect=true`;
+      const res = await fetch(url, { method: "GET" });
+      if (!res.ok) return null;
+      const json = await res.json();
+      return json;
     }
 
-    // Use Lovable AI to research the endangered language
-    const prompt = `Provide comprehensive information about the ${languageName} language. Include:
-    
-1. **Overview**: Brief introduction and classification
-2. **Current Status**: Number of speakers, endangerment level (critically endangered, endangered, vulnerable, etc.), geographic locations where it's spoken
-3. **History**: Historical significance and evolution of the language
-4. **Cultural Significance**: Cultural practices, traditions, and heritage associated with this language
-5. **Writing System**: Script or writing system used (if any)
-6. **Interesting Facts**: 3-5 fascinating facts about the language
-7. **Preservation Efforts**: Current initiatives to preserve and revitalize the language
-8. **Learning Resources**: Where people can learn more about this language
-
-Format the response in a clear, educational manner suitable for language learners and cultural enthusiasts. Focus on accuracy and cite general knowledge about endangered languages.`;
-
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [
-          {
-            role: "system",
-            content: "You are an expert linguist and anthropologist specializing in endangered languages. Provide accurate, educational, and culturally sensitive information about languages and their communities."
-          },
-          {
-            role: "user",
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000,
-      }),
-    });
-
-    if (!aiResponse.ok) {
-      const errorText = await aiResponse.text();
-      console.error("AI API error:", aiResponse.status, errorText);
-      
-      if (aiResponse.status === 429) {
-        return new Response(
-          JSON.stringify({ 
-            error: "Rate limit exceeded. Please try again in a moment." 
-          }),
-          { 
-            status: 429, 
-            headers: { ...corsHeaders, "Content-Type": "application/json" } 
-          }
-        );
-      }
-      
-      if (aiResponse.status === 402) {
-        return new Response(
-          JSON.stringify({ 
-            error: "AI credits depleted. Please contact support." 
-          }),
-          { 
-            status: 402, 
-            headers: { ...corsHeaders, "Content-Type": "application/json" } 
-          }
-        );
-      }
-      
-      throw new Error(`AI API error: ${errorText}`);
+    const candidates = [languageName, `${languageName} language`];
+    let wiki: any = null;
+    for (const t of candidates) {
+      wiki = await fetchWiki(t);
+      if (wiki && wiki.extract) break;
     }
 
-    const data = await aiResponse.json();
-    const languageInfo = data.choices[0]?.message?.content;
-
-    if (!languageInfo) {
-      throw new Error("No content received from AI");
+    if (!wiki || !wiki.extract) {
+      throw new Error("No Wikipedia summary found for this language");
     }
 
-    console.log("Successfully retrieved language information");
+    const displayTitle = wiki.titles?.display || languageName;
+    const description = wiki.description || "";
+    const extract = wiki.extract || "";
+    const pageUrl = wiki.content_urls?.desktop?.page || wiki.content_urls?.mobile?.page;
+
+    const titleMd = `# ${displayTitle}`;
+    const overviewMd = description ? `\n\n**Overview**: ${description}\n` : "";
+    const codeMd = languageCode ? `\n\nLanguage Code: \`${languageCode}\`` : "";
+    const sourceMd = pageUrl ? `\n\nSources:\n- [Wikipedia](${pageUrl})` : "";
+
+    const languageInfo = `${titleMd}${overviewMd}\n${extract}${codeMd}${sourceMd}`;
+
+    console.log("Successfully retrieved language information from Wikipedia");
 
     return new Response(
-      JSON.stringify({ 
-        success: true,
-        languageInfo,
-        languageName,
-        languageCode
-      }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ success: true, languageInfo, languageName, languageCode }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-
   } catch (error) {
     console.error("Error in language-info function:", error);
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error occurred" 
-      }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error occurred" }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

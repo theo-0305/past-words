@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpen, LogOut, Settings, Home, Plus, FolderOpen, GraduationCap, Globe, Info, Shield } from "lucide-react";
+import { BookOpen, LogOut, Settings, Home, Plus, FolderOpen, GraduationCap, Globe, Info, Shield, Menu } from "lucide-react";
 import { useAdminRole } from "@/hooks/useAdminRole";
 import {
   DropdownMenu,
@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet";
 
 interface LayoutProps {
   children: ReactNode;
@@ -80,14 +81,7 @@ const Layout = ({ children }: LayoutProps) => {
               <GraduationCap className="mr-2 h-4 w-4" />
               Learning Hub
             </Button>
-            <Button
-              variant={location.pathname === "/languages" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => navigate("/languages")}
-            >
-              <Globe className="mr-2 h-4 w-4" />
-              Languages
-            </Button>
+            {/* Languages nav removed */}
             <Button
               variant={location.pathname === "/words" ? "secondary" : "ghost"}
               size="sm"
@@ -117,6 +111,72 @@ const Layout = ({ children }: LayoutProps) => {
           </nav>
 
           <div className="flex items-center gap-4">
+            {/* Mobile hamburger menu */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden rounded-full">
+                  <Menu className="w-5 h-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="p-0">
+                <div className="p-4 space-y-1">
+                  <SheetClose asChild>
+                    <Button
+                      variant={location.pathname === "/dashboard" ? "secondary" : "ghost"}
+                      className="w-full justify-start"
+                      onClick={() => navigate("/dashboard")}
+                    >
+                      <Home className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Button
+                      variant={location.pathname === "/learn" ? "secondary" : "ghost"}
+                      className="w-full justify-start"
+                      onClick={() => navigate("/learn")}
+                    >
+                      <GraduationCap className="mr-2 h-4 w-4" />
+                      Learning Hub
+                    </Button>
+                  </SheetClose>
+                  {/* Languages mobile nav removed */}
+                  <SheetClose asChild>
+                    <Button
+                      variant={location.pathname === "/words" ? "secondary" : "ghost"}
+                      className="w-full justify-start"
+                      onClick={() => navigate("/words")}
+                    >
+                      <BookOpen className="mr-2 h-4 w-4" />
+                      Words
+                    </Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Button
+                      variant={location.pathname === "/community" ? "secondary" : "ghost"}
+                      className="w-full justify-start"
+                      onClick={() => navigate("/community")}
+                    >
+                      <Globe className="mr-2 h-4 w-4" />
+                      Community
+                    </Button>
+                  </SheetClose>
+                  {isAdmin && (
+                    <SheetClose asChild>
+                      <Button
+                        variant={location.pathname.startsWith("/admin") ? "secondary" : "ghost"}
+                        className="w-full justify-start"
+                        onClick={() => navigate("/admin")}
+                      >
+                        <Shield className="mr-2 h-4 w-4" />
+                        Admin
+                      </Button>
+                    </SheetClose>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">

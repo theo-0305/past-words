@@ -21,6 +21,8 @@ const LanguageDetail = () => {
   const [languageCode, setLanguageCode] = useState(
     location.state?.languageCode || ""
   );
+  const [practiceVocab, setPracticeVocab] = useState<Array<{ native: string; translation: string }>>([]);
+  const [isPracticeLoading, setIsPracticeLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchLanguageInfo();
@@ -63,6 +65,28 @@ const LanguageDetail = () => {
       }
 
       setLanguageInfo(data.languageInfo);
+
+      // Fetch practice vocabulary from web via edge function
+      setIsPracticeLoading(true);
+      try {
+        const { data: practiceData, error: practiceError } = await supabase.functions.invoke("language-practice", {
+          body: {
+            languageName: languageName || location.state?.languageName,
+            languageCode: languageCode || location.state?.languageCode,
+          },
+        });
+        if (practiceError) throw practiceError;
+        if (practiceData?.practice?.vocabulary) {
+          const raw = practiceData.practice.vocabulary as Array<{ native: string; translation: string }>;
+          const filtered = raw.filter(p => p.native && p.translation && p.native.trim().toLowerCase() !== p.translation.trim().toLowerCase());
+          console.log('[LanguageDetail] practice vocab counts', { raw: raw.length, filtered: filtered.length });
+          setPracticeVocab(filtered);
+        }
+      } catch (e) {
+        console.error("Practice fetch error:", e);
+      } finally {
+        setIsPracticeLoading(false);
+      }
     } catch (error) {
       console.error("Error fetching language info:", error);
       toast({
@@ -76,43 +100,38 @@ const LanguageDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
-        {/* Back Button */}
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
         <Button
           variant="ghost"
-          onClick={() => navigate("/languages")}
-          className="mb-6"
+          onClick={() => navigate(-1)}
+          className="mb-6 text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Languages
         </Button>
 
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <Globe className="h-12 w-12 text-primary" />
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                {languageName}
-              </h1>
-              {languageCode && (
-                <p className="text-muted-foreground font-mono mt-1">
-                  Language Code: {languageCode}
-                </p>
-              )}
-            </div>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold text-foreground mb-2">
+              {languageName || "Language Detail"}
+            </h1>
+            <p className="text-muted-foreground">
+              Explore and learn about {languageName || "this language"}
+            </p>
           </div>
+          <Globe className="h-10 w-10 text-primary" />
         </div>
 
         {/* Loading State */}
         {isLoading && (
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-20">
-              <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-              <p className="text-muted-foreground">
-                Gathering information about {languageName}...
-              </p>
+          <Card className="overflow-hidden">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-3">
+                <Loader2 className="h-6 w-6 animate-spin" />
+                <span>Loading language information...</span>
+              </div>
             </CardContent>
           </Card>
         )}
@@ -151,6 +170,50 @@ const LanguageDetail = () => {
               </CardContent>
             </Card>
 
+            {/* Practice Section */}
+            <Card>
+              <CardContent className="p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <Users className="h-6 w-6 text-primary" />
+                  <h2 className="text-2xl font-bold">Practice</h2>
+                </div>
+                {isPracticeLoading ? (
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>Fetching practice vocabulary from the web...</span>
+                  </div>
+                ) : practiceVocab.length > 0 ? (
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {practiceVocab.map((item, idx) => (
+                      <Card key={idx} className="p-4 bg-card border-border">
+                        <div className="flex justify-between items-center">
+                          <span className="text-lg font-semibold">{item.native}</span>
+                          <span className="text-muted-foreground">{item.translation}</span>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground">No practice vocabulary found yet.</p>
+                )}
+                <div className="mt-6 flex gap-3">
+                  <Button
+                    variant="secondary"
+                    onClick={() =>
+                      navigate("/practice", {
+                        state: {
+                          languageName,
+                          practiceVocab,
+                        },
+                      })
+                    }
+                  >
+                    Open Practice Mode
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Action Cards */}
             <div className="grid md:grid-cols-3 gap-4">
               <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/words")}>
@@ -163,7 +226,7 @@ const LanguageDetail = () => {
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/practice")}>
+              <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/practice", { state: { languageName, practiceVocab } })}>
                 <CardContent className="p-6 text-center">
                   <Users className="h-8 w-8 mx-auto mb-2 text-primary" />
                   <h3 className="font-semibold mb-1">Practice</h3>

@@ -67,7 +67,7 @@ const Words = () => {
           native_word,
           translation,
           category_id,
-          categories (
+          categories!words_category_id_fkey (
             name
           )
         `)

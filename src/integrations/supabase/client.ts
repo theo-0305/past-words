@@ -2,8 +2,17 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+
+// Debug: verify env values at runtime
+if (typeof window !== 'undefined') {
+  const keyPreview = SUPABASE_PUBLISHABLE_KEY ? SUPABASE_PUBLISHABLE_KEY.slice(0, 8) + '...' : 'undefined';
+  // eslint-disable-next-line no-console
+  console.log('[Supabase] URL:', SUPABASE_URL);
+  // eslint-disable-next-line no-console
+  console.log('[Supabase] Anon key present:', !!SUPABASE_PUBLISHABLE_KEY, keyPreview);
+}
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
@@ -13,5 +22,11 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
-  }
+  },
+  global: {
+    headers: {
+      apikey: SUPABASE_PUBLISHABLE_KEY,
+      Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+    },
+  },
 });
