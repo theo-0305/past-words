@@ -62,26 +62,28 @@ const AddWord = () => {
   });
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("categories")
+          .select("id, name")
+          .order("name");
+
+        if (error) throw error;
+        setCategories(data || []);
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        toast({
+          title: "Error fetching categories",
+          description: message,
+          variant: "destructive",
+        });
+      }
+    };
     fetchCategories();
   }, []);
 
-  const fetchCategories = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("categories")
-        .select("id, name")
-        .order("name");
 
-      if (error) throw error;
-      setCategories(data || []);
-    } catch (error: any) {
-      toast({
-        title: "Error fetching categories",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
-  };
 
   const handleRecordingComplete = async (audioBlob: Blob, duration: number) => {
     setRecordedAudioBlob(audioBlob);
@@ -122,6 +124,14 @@ const AddWord = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
+
+      // Ensure profile exists for FK and attribution
+      await supabase.from("profiles").upsert({
+        id: user.id,
+        display_name: (typeof (user.user_metadata as Record<string, unknown>)?.display_name === 'string'
+          ? ((user.user_metadata as Record<string, unknown>).display_name as string)
+          : (user.email ? user.email.split("@")[0] : null))
+      });
 
       let finalAudioUrl = null;
       let audioDuration: number | null = null;
@@ -171,10 +181,11 @@ const AddWord = () => {
       });
 
       navigate("/words");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       toast({
         title: "Error adding word",
-        description: error.message,
+        description: message,
         variant: "destructive",
       });
     } finally {
