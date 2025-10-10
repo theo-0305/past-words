@@ -29,4 +29,8 @@ END $$;
 -- Recreate constraints pointing to current languages(id)
 ALTER TABLE public.community_content
   ADD CONSTRAINT community_content_language_id_fkey
-  FOREIGN KEY
+  FOREIGN KEY (language_id) REFERENCES public.languages(id) ON DELETE SET NULL;
+
+ALTER TABLE public.words
+  ADD CONSTRAINT words_language_id_fkey
+  FOREIGN KEY (language_id) REFERENCES public.languages(id) ON DELETE SET NULL;

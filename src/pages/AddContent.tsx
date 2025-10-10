@@ -12,6 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Music, Image as ImageIcon, Globe, Video, FileText, BookOpen, Upload } from "lucide-react";
+import { AudioRecorder, AudioPreview } from "@/components/AudioRecorder";
+import { useAudioStorage } from "@/hooks/useAudioStorage";
 
 const contentTypes = [
   { value: "word", label: "Words", icon: BookOpen },
@@ -35,12 +37,49 @@ const AddContent = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
   const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
+  const [recordedAudioBlob, setRecordedAudioBlob] = useState<Blob | null>(null);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   
   const contentFileRef = useRef<HTMLInputElement>(null);
   const thumbnailFileRef = useRef<HTMLInputElement>(null);
 
+  const { uploadAudio, isUploading, uploadProgress, error: uploadError } = useAudioStorage({ bucket: 'community-content' });
+
+  const handleRecordingComplete = (blob: Blob) => {
+    setRecordedAudioBlob(blob);
+  };
+
+  const handleRecordingError = (error?: any) => {
+    toast({
+      title: "Recording error",
+      description: typeof error === 'string' ? error : 'Failed to record audio',
+      variant: "destructive",
+    });
+  };
+
+  const handleSaveRecordedAudio = async () => {
+    try {
+      if (!recordedAudioBlob) return;
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({ title: "Not authenticated", description: "Please sign in to save audio.", variant: "destructive" });
+        return;
+      }
+      setLoading(true);
+      const uploadedUrl = await uploadAudio(recordedAudioBlob, user.id, 'community');
+      if (uploadedUrl) {
+        setContentUrl(uploadedUrl);
+        toast({ title: "Audio saved", description: "Recorded audio uploaded successfully." });
+      }
+    } catch (err: any) {
+      toast({ title: "Upload failed", description: err?.message || 'Unable to upload recorded audio', variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Fetch languages
-  const { data: languages } = useQuery({
+  const { data: languages, isLoading: languagesLoading, error: languagesError } = useQuery({
     queryKey: ["languages"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -192,6 +231,15 @@ const AddContent = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitAttempted(true);
+    if (!languageId) {
+      toast({
+        title: "Language required",
+        description: "Please select a language.",
+        variant: "destructive",
+      });
+      return;
+    }
     setLoading(true);
 
     try {
@@ -289,7 +337,13 @@ const AddContent = () => {
               {/* Content Type Selection */}
               <div className="space-y-2">
                 <Label htmlFor="contentType">Content Type</Label>
-                <Select value={contentType} onValueChange={setContentType}>
+                <Select value={contentType} onValueChange={(value) => {
+                  if (value === 'word') {
+                    navigate('/add-word');
+                  } else {
+                    setContentType(value);
+                  }
+                }}>
                   <SelectTrigger id="contentType">
                     <SelectValue />
                   </SelectTrigger>
@@ -311,12 +365,21 @@ const AddContent = () => {
 
               {/* Language Selection */}
               <div className="space-y-2">
-                <Label htmlFor="language">Language</Label>
+                <Label htmlFor="language">Language *</Label>
                 <Select value={languageId} onValueChange={setLanguageId}>
-                  <SelectTrigger id="language">
+                  <SelectTrigger id="language" disabled={languagesLoading} aria-invalid={submitAttempted && !languageId}>
                     <SelectValue placeholder="Select a language" />
                   </SelectTrigger>
                   <SelectContent>
+                    {languagesLoading && (
+                      <SelectItem disabled value="loading">Loading languages...</SelectItem>
+                    )}
+                    {languagesError && (
+                      <SelectItem disabled value="error">Failed to load languages</SelectItem>
+                    )}
+                    {!languagesLoading && !languagesError && (languages?.length ?? 0) === 0 && (
+                      <SelectItem disabled value="empty">No languages found</SelectItem>
+                    )}
                     {languages?.map((lang) => (
                       <SelectItem key={lang.id} value={lang.id}>
                         {lang.name}
@@ -324,6 +387,9 @@ const AddContent = () => {
                     ))}
                   </SelectContent>
                 </Select>
+                {submitAttempted && !languageId && (
+                  <p className="text-sm text-destructive">Language is required</p>
+                )}
               </div>
 
               {/* Title */}
@@ -367,16 +433,33 @@ const AddContent = () => {
                   </Label>
                   
                   <div className="space-y-3">
-                    {/* Upload Button */}
-                    {(contentType === "audio" || contentType === "video" || contentType === "picture") && (
+                    {/* Recording interface for audio */}
+                    {contentType === "audio" && (
+                      <>
+                        <AudioRecorder 
+                          onRecordingComplete={handleRecordingComplete}
+                          onRecordingError={handleRecordingError}
+                        />
+                        {recordedAudioBlob && (
+                          <AudioPreview
+                            audioBlob={recordedAudioBlob}
+                            onReRecord={() => setRecordedAudioBlob(null)}
+                            onDelete={() => setRecordedAudioBlob(null)}
+                            onSave={handleSaveRecordedAudio}
+                          />
+                        )}
+                        <p className="text-xs text-muted-foreground text-center">or paste a URL</p>
+                      </>
+                    )}
+
+                    {/* Upload Button for video/picture */}
+                    {(contentType === "video" || contentType === "picture") && (
                       <>
                         <input
                           ref={contentFileRef}
                           type="file"
                           accept={
-                            contentType === "audio" ? "audio/*" :
-                            contentType === "video" ? "video/*" :
-                            "image/*"
+                            contentType === "video" ? "video/*" : "image/*"
                           }
                           onChange={(e) => handleFileUpload(e, 'content')}
                           className="hidden"
@@ -513,7 +596,7 @@ const AddContent = () => {
 
               {/* Submit Button */}
               <div className="flex gap-4">
-                <Button type="submit" disabled={loading} className="flex-1">
+                <Button type="submit" disabled={loading || !languageId} className="flex-1">
                   {loading ? "Adding..." : "Add Content"}
                 </Button>
                 <Button

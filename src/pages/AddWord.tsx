@@ -14,10 +14,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Mic } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { AudioRecorder, AudioPreview } from "@/components/AudioRecorder";
+import { useAudioStorage } from "@/hooks/useAudioStorage";
+import { useQuery } from "@tanstack/react-query";
+import { getAudioDuration } from "@/utils/audioProcessing";
 
 interface Category {
+  id: string;
+  name: string;
+}
+
+interface Language {
   id: string;
   name: string;
 }
@@ -29,8 +38,28 @@ const AddWord = () => {
   const [notes, setNotes] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
+  const [recordedAudioBlob, setRecordedAudioBlob] = useState<Blob | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string>("");
+  const [isRecording, setIsRecording] = useState(false);
+  const [languageId, setLanguageId] = useState<string>("");
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const { uploadAudio, isUploading, uploadProgress, error: uploadError } = useAudioStorage();
+
+  // Fetch languages
+  const { data: languages, isLoading: languagesLoading, error: languagesError } = useQuery({
+    queryKey: ["languages"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("languages")
+        .select("*")
+        .order("name");
+      if (error) throw error;
+      return data as Language[];
+    },
+  });
 
   useEffect(() => {
     fetchCategories();
@@ -54,23 +83,87 @@ const AddWord = () => {
     }
   };
 
+  const handleRecordingComplete = async (audioBlob: Blob, duration: number) => {
+    setRecordedAudioBlob(audioBlob);
+    setIsRecording(false);
+  };
+
+  const handleRecordingError = (error: string) => {
+    toast({
+      title: "Recording Error",
+      description: error,
+      variant: "destructive",
+    });
+  };
+
+  const handleReRecord = () => {
+    setRecordedAudioBlob(null);
+    setAudioUrl("");
+  };
+
+  const handleDeleteAudio = () => {
+    setRecordedAudioBlob(null);
+    setAudioUrl("");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitAttempted(true);
+    if (!languageId) {
+      toast({
+        title: "Language required",
+        description: "Please select a language before saving.",
+        variant: "destructive",
+      });
+      return;
+    }
     setLoading(true);
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase.from("words").insert({
+      let finalAudioUrl = null;
+      let audioDuration: number | null = null;
+
+      // Upload recorded audio if available
+      if (recordedAudioBlob) {
+        // Create a temporary word ID for upload
+        const tempWordId = `temp_${Date.now()}`;
+        
+        const uploadedUrl = await uploadAudio(recordedAudioBlob, user.id, tempWordId);
+        if (uploadedUrl) {
+          finalAudioUrl = uploadedUrl;
+          // Get audio duration synchronously before insert
+          audioDuration = await getAudioDuration(recordedAudioBlob);
+        }
+      }
+
+      // Insert word with audio metadata
+      const { data: insertedWord, error } = await supabase.from("words").insert({
         user_id: user.id,
         native_word: nativeWord,
         translation: translation,
         category_id: categoryId || null,
         notes: notes || null,
-      });
+        audio_url: finalAudioUrl,
+        audio_duration: audioDuration,
+        audio_recorded_at: finalAudioUrl ? new Date().toISOString() : null,
+        is_recorded: !!finalAudioUrl,
+        language_id: languageId,
+      }).select().single();
 
       if (error) throw error;
+
+      // If we uploaded audio with a temp ID, re-upload with the actual word ID
+      if (recordedAudioBlob && finalAudioUrl && insertedWord?.id) {
+        const correctedUrl = await uploadAudio(recordedAudioBlob, user.id, insertedWord.id);
+        if (correctedUrl) {
+          await supabase.from("words").update({
+            audio_url: correctedUrl,
+          }).eq("id", insertedWord.id);
+        }
+      }
 
       toast({
         title: "Word added!",
@@ -120,6 +213,35 @@ const AddWord = () => {
               />
             </div>
 
+            {/* Language Selection */}
+            <div className="space-y-2">
+              <Label htmlFor="language">Language *</Label>
+              <Select value={languageId} onValueChange={setLanguageId}>
+                <SelectTrigger className="bg-secondary border-border" id="language" disabled={languagesLoading} aria-invalid={submitAttempted && !languageId}>
+                  <SelectValue placeholder="Select a language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {languagesLoading && (
+                    <SelectItem disabled value="loading">Loading languages...</SelectItem>
+                  )}
+                  {languagesError && (
+                    <SelectItem disabled value="error">Failed to load languages</SelectItem>
+                  )}
+                  {!languagesLoading && !languagesError && (languages?.length ?? 0) === 0 && (
+                    <SelectItem disabled value="empty">No languages found</SelectItem>
+                  )}
+                  {languages?.map((lang) => (
+                    <SelectItem key={lang.id} value={lang.id}>
+                      {lang.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {submitAttempted && !languageId && (
+                <p className="text-sm text-destructive">Language is required</p>
+              )}
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="translation">English Translation</Label>
               <Input
@@ -163,6 +285,52 @@ const AddWord = () => {
               />
             </div>
 
+            {/* Audio Recording Section */}
+            <div className="space-y-4 p-4 bg-gray-50 rounded-lg border">
+              <div className="flex items-center space-x-2">
+                <Mic className="h-5 w-5 text-gray-600" />
+                <Label className="text-base font-medium">Audio Pronunciation (Optional)</Label>
+              </div>
+              
+              {!recordedAudioBlob ? (
+                <AudioRecorder
+                  onRecordingComplete={handleRecordingComplete}
+                  onRecordingError={handleRecordingError}
+                  className="w-full"
+                />
+              ) : (
+                <AudioPreview
+                  audioBlob={recordedAudioBlob}
+                  onReRecord={handleReRecord}
+                  onDelete={handleDeleteAudio}
+                  showActions={true}
+                  className="w-full"
+                />
+              )}
+
+              {/* Upload Progress */}
+              {isUploading && (
+                <div className="w-full">
+                  <div className="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Uploading audio...</span>
+                    <span>{Math.round(uploadProgress)}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+
+              {uploadError && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                  <p className="text-sm text-red-700">{uploadError}</p>
+                </div>
+              )}
+            </div>
+
             <div className="flex gap-4 pt-4">
               <Button
                 type="button"
@@ -174,13 +342,13 @@ const AddWord = () => {
               </Button>
               <Button
                 type="submit"
-                disabled={loading}
+                disabled={loading || isUploading || isRecording}
                 className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
               >
-                {loading ? (
+                {loading || isUploading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving...
+                    {isUploading ? "Uploading..." : "Saving..."}
                   </>
                 ) : (
                   "Save Word"

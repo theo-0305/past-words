@@ -20,6 +20,13 @@ interface CommunityContent {
   created_at: string;
   user_id: string;
   profiles?: { display_name: string | null };
+  // Preview fields
+  description?: string | null;
+  content_url?: string | null;
+  thumbnail_url?: string | null;
+  language_id?: string | null;
+  languages?: { name: string | null; code: string | null };
+  metadata?: any | null;
 }
 
 interface ContentFlag {
@@ -41,6 +48,7 @@ export default function ContentModeration() {
   const [selectedContent, setSelectedContent] = useState<CommunityContent | null>(null);
   const [reviewDialog, setReviewDialog] = useState<'approve' | 'reject' | null>(null);
   const [reviewNotes, setReviewNotes] = useState('');
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !isAdmin) {
@@ -59,7 +67,11 @@ export default function ContentModeration() {
     try {
       const { data, error } = await supabase
         .from('community_content')
-        .select('*, profiles(display_name)')
+        .select(`
+          *,
+          profiles!community_content_user_id_fkey (display_name),
+          languages!community_content_language_id_fkey (name, code)
+        `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -224,6 +236,17 @@ export default function ContentModeration() {
                         <div className="flex gap-2">
                           <Button
                             size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setSelectedContent(item);
+                              setIsPreviewOpen(true);
+                            }}
+                          >
+                            <Eye className="h-4 w-4 mr-1" />
+                            Preview
+                          </Button>
+                          <Button
+                            size="sm"
                             variant="default"
                             onClick={() => {
                               setSelectedContent(item);
@@ -318,6 +341,109 @@ export default function ContentModeration() {
           </Tabs>
         </CardContent>
       </Card>
+
+      <Dialog open={reviewDialog !== null} onOpenChange={() => setReviewDialog(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {reviewDialog === 'approve' ? 'Approve' : 'Reject'} Content
+            </DialogTitle>
+            <DialogDescription>
+              Add optional notes about your decision
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            placeholder="Review notes (optional)..."
+            value={reviewNotes}
+            onChange={(e) => setReviewNotes(e.target.value)}
+          />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setReviewDialog(null)}>Cancel</Button>
+            <Button
+              variant={reviewDialog === 'approve' ? 'default' : 'destructive'}
+              onClick={() => reviewContent(reviewDialog === 'approve' ? 'approved' : 'rejected')}
+            >
+              {reviewDialog === 'approve' ? 'Approve' : 'Reject'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isPreviewOpen} onOpenChange={() => setIsPreviewOpen(false)}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{selectedContent?.title}</DialogTitle>
+            <DialogDescription>{selectedContent?.description || 'No description provided'}</DialogDescription>
+          </DialogHeader>
+
+          {(() => {
+            const type = selectedContent?.content_type;
+            const contentUrl = selectedContent?.content_url || null;
+            const thumbnailUrl = selectedContent?.thumbnail_url || null;
+            if (type === 'audio') {
+              return contentUrl ? (
+                <audio controls className="w-full">
+                  <source src={contentUrl} />
+                </audio>
+              ) : null;
+            }
+            if (type === 'video') {
+              return contentUrl ? (
+                <video controls className="w-full rounded-md" src={contentUrl} />
+              ) : null;
+            }
+            if (type === 'picture') {
+              return (
+                <img
+                  src={thumbnailUrl || contentUrl || ''}
+                  alt={`${selectedContent?.title} preview`}
+                  className="w-full max-h-[420px] object-contain rounded-md"
+                  loading="lazy"
+                />
+              );
+            }
+            if (type === 'article' || type === 'cultural_norm') {
+              return (
+                <div className="space-y-2">
+                  {selectedContent?.description && (
+                    <p className="text-sm">{selectedContent.description}</p>
+                  )}
+                  {contentUrl && (
+                    <a
+                      href={contentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-primary"
+                    >
+                      Open resource
+                    </a>
+                  )}
+                </div>
+              );
+            }
+            return null;
+          })()}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-muted-foreground mt-4">
+            <div>Author: {selectedContent?.profiles?.display_name || 'Anonymous'}</div>
+            <div>Language: {selectedContent?.languages?.name || selectedContent?.language_id || '—'}</div>
+            <div>Submitted: {selectedContent ? new Date(selectedContent.created_at).toLocaleString() : ''}</div>
+          </div>
+
+          {selectedContent?.metadata && (
+            <div className="mt-4">
+              <div className="font-medium mb-1">Metadata</div>
+              <pre className="text-xs bg-muted p-2 rounded overflow-x-auto">
+                {JSON.stringify(selectedContent.metadata, null, 2)}
+              </pre>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button onClick={() => setIsPreviewOpen(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={reviewDialog !== null} onOpenChange={() => setReviewDialog(null)}>
         <DialogContent>

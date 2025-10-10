@@ -60,7 +60,7 @@ async function parseWiktionaryTable(title: string, languageName: string): Promis
   const html: string = data?.parse?.text?.["*"] || "";
   if (!html) return [];
 
-  const tableMatches = [...html.matchAll(/<table[^>]*class="[^"]*wikitable[^"]*"[\s\S]*?<\/table>/gi)];
+  const tableMatches = Array.from(html.matchAll(/<table[^>]*class="[^"]*wikitable[^"]*"[\s\S]*?<\/table>/gi));
   if (!tableMatches.length) return [];
 
   const EN_KEYS = ["english", "gloss", "meaning", "translation", "concept"];
@@ -141,7 +141,7 @@ async function parseWiktionaryTable(title: string, languageName: string): Promis
       const key = `${r.native.trim().toLowerCase()}|${r.translation.trim().toLowerCase()}`;
       if (unique[key]) return false;
       unique[key] = true;
-      const badCharCount = (r.native.match(/[\[\]{}0-9]/g) || []).length;
+      const badCharCount = (r.native.match(/[[{}0-9]/g) || []).length;
       return badCharCount < 2;
     }).slice(0, 50);
 

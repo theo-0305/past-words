@@ -5,7 +5,8 @@
     "xhr": "https://deno.land/x/xhr@0.1.0/mod.ts"
   },
   "compilerOptions": {
-    "lib": ["deno.ns", "dom", "dom.iterable"]
+    "lib": ["deno.ns", "dom", "dom.iterable"],
+    "types": ["https://deno.land/types/index.d.ts"]
   },
   "lint": {
     "rules": {
