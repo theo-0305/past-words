@@ -16,9 +16,10 @@ import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/s
 
 interface LayoutProps {
   children: ReactNode;
+  requireAuth?: boolean;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, requireAuth = true }: LayoutProps) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,7 +29,7 @@ const Layout = ({ children }: LayoutProps) => {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-      if (!session) {
+      if (!session && requireAuth) {
         navigate("/auth");
       }
     });
@@ -36,13 +37,13 @@ const Layout = ({ children }: LayoutProps) => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
-      if (!session && event === "SIGNED_OUT") {
+      if (!session && event === "SIGNED_OUT" && requireAuth) {
         navigate("/auth");
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, requireAuth]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -205,6 +206,10 @@ const Layout = ({ children }: LayoutProps) => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate("/my-content")}>
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  My Content
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out

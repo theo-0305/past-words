@@ -116,6 +116,7 @@ const Community = () => {
   const displayContent = selectedContentType === "all" || selectedContentType === "word" 
     ? [...(communityContent || []), ...(publicWords || []).map(w => ({
         ...w,
+        id: `word_${w.id}`, // Prefix word IDs to avoid conflicts with community content IDs
         content_type: 'word' as const,
         title: w.native_word,
         description: w.translation,

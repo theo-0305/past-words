@@ -17,6 +17,7 @@ import WordDetail from "./pages/WordDetail";
 import Categories from "./pages/Categories";
 import Practice from "./pages/Practice";
 import Community from "./pages/Community";
+import MyContent from "./pages/MyContent";
 import LanguageHub from "./pages/LanguageHub";
 import Languages from "./pages/Languages";
 import LanguageDetail from "./pages/LanguageDetail";
@@ -110,6 +111,7 @@ const App = () => (
           <Route path="/categories" element={<Categories />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/my-content" element={<MyContent />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/users/search" element={<UserSearch />} />

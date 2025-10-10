@@ -46,8 +46,15 @@ const Practice = () => {
 
   const fetchWords = async () => {
     try {
-      const { data, error } = await supabase
-        .from("words")
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData?.session;
+
+      let query = supabase.from("words");
+      if (!session) {
+        query = query.eq("is_public", true);
+      }
+
+      const { data, error } = await query
         .select("id, native_word, translation")
         .order("created_at", { ascending: false });
 
@@ -93,7 +100,7 @@ const Practice = () => {
 
   if (loading) {
     return (
-      <Layout>
+      <Layout requireAuth={false}>
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <Card className="p-8 bg-card border-border">
             <p className="text-center text-muted-foreground">Loading...</p>
@@ -104,7 +111,7 @@ const Practice = () => {
   }
 
   return (
-    <Layout>
+    <Layout requireAuth={false}>
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <Button
           variant="ghost"

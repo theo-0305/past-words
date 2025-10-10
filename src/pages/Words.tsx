@@ -37,11 +37,12 @@ const Words = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteWordId, setDeleteWordId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchWords();
+    void fetchWords();
   }, []);
 
   useEffect(() => {
@@ -60,19 +61,26 @@ const Words = () => {
 
   const fetchWords = async () => {
     try {
-      const { data, error } = await supabase
-        .from("words")
-        .select(`
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData?.session;
+      setIsAuthenticated(!!session);
+
+      let query = supabase.from("words");
+
+      if (session) {
+        query = query.select(`
           id,
           native_word,
           translation,
           category_id,
-          categories!words_category_id_fkey (
-            name
-          )
-        `)
-        .order("created_at", { ascending: false });
+          categories!words_category_id_fkey ( name )
+        `);
+      } else {
+        // Anonymous users: restrict to public words and avoid category embed
+        query = query.select("id,native_word,translation").eq("is_public", true);
+      }
 
+      const { data, error } = await query.order("created_at", { ascending: false });
       if (error) throw error;
       setWords(data || []);
       setFilteredWords(data || []);
@@ -118,20 +126,22 @@ const Words = () => {
   const currentWords = filteredWords.slice(startIndex, endIndex);
 
   return (
-    <Layout>
+    <Layout requireAuth={false}>
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-4xl font-bold text-foreground mb-2">My Words</h2>
-            <p className="text-muted-foreground">Manage your vocabulary collection</p>
+            <h2 className="text-4xl font-bold text-foreground mb-2">Words</h2>
+            <p className="text-muted-foreground">Browse vocabulary. Sign in to add or edit.</p>
           </div>
-          <Button
-            onClick={() => navigate("/add-word")}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            <Plus className="mr-2 h-5 w-5" />
-            New Word
-          </Button>
+          {isAuthenticated && (
+            <Button
+              onClick={() => navigate("/add-word")}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              <Plus className="mr-2 h-5 w-5" />
+              New Word
+            </Button>
+          )}
         </div>
 
         <Card className="mb-6 p-4 bg-card border-border">
@@ -154,12 +164,18 @@ const Words = () => {
           <Card className="p-12 bg-card border-border">
             <div className="text-center">
               <p className="text-muted-foreground mb-4">
-                {searchQuery ? "No words found matching your search." : "No words yet. Start adding words!"}
+                {searchQuery
+                  ? "No words found matching your search."
+                  : isAuthenticated
+                  ? "No words yet. Start adding words!"
+                  : "No public words yet. Sign in to add your own."}
               </p>
-              <Button onClick={() => navigate("/add-word")} className="bg-primary hover:bg-primary/90">
-                <Plus className="mr-2 h-4 w-4" />
-                Add Your First Word
-              </Button>
+              {isAuthenticated && (
+                <Button onClick={() => navigate("/add-word")} className="bg-primary hover:bg-primary/90">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Your First Word
+                </Button>
+              )}
             </div>
           </Card>
         ) : (
@@ -176,28 +192,30 @@ const Words = () => {
                       <h3 className="text-xl font-bold text-foreground mb-1">{word.native_word}</h3>
                       <p className="text-muted-foreground">{word.translation}</p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/edit-word/${word.id}`);
-                        }}
-                      >
-                        <Edit className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDeleteWordId(word.id);
-                        }}
-                      >
-                        <Trash2 className="h-5 w-5 text-destructive" />
-                      </Button>
-                    </div>
+                    {isAuthenticated && (
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/edit-word/${word.id}`);
+                          }}
+                        >
+                          <Edit className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeleteWordId(word.id);
+                          }}
+                        >
+                          <Trash2 className="h-5 w-5 text-destructive" />
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </Card>
               ))}
