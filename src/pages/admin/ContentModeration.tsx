@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, XCircle, Eye, ArrowLeft } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { Json } from '../../integrations/supabase/types';
 
 interface CommunityContent {
   id: string;
@@ -26,7 +27,7 @@ interface CommunityContent {
   thumbnail_url?: string | null;
   language_id?: string | null;
   languages?: { name: string | null; code: string | null };
-  metadata?: any | null;
+  metadata?: Json | null;
 }
 
 interface ContentFlag {
@@ -85,11 +86,11 @@ export default function ContentModeration() {
     try {
       const { data, error } = await supabase
         .from('content_flags')
-        .select('*, community_content(title)')
+        .select('*, community_content:content_id(title)')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setFlags(data as any || []);
+      setFlags((data ?? []) as ContentFlag[]);
     } catch (error) {
       console.error('Error loading flags:', error);
     }

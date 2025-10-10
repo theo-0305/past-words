@@ -49,10 +49,10 @@ const AddContent = () => {
     setRecordedAudioBlob(blob);
   };
 
-  const handleRecordingError = (error?: any) => {
+  const handleRecordingError = (error?: unknown) => {
     toast({
       title: "Recording error",
-      description: typeof error === 'string' ? error : 'Failed to record audio',
+      description: typeof error === 'string' ? error : (error instanceof Error ? error.message : 'Failed to record audio'),
       variant: "destructive",
     });
   };
@@ -71,8 +71,9 @@ const AddContent = () => {
         setContentUrl(uploadedUrl);
         toast({ title: "Audio saved", description: "Recorded audio uploaded successfully." });
       }
-    } catch (err: any) {
-      toast({ title: "Upload failed", description: err?.message || 'Unable to upload recorded audio', variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unable to upload recorded audio';
+      toast({ title: "Upload failed", description: message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -144,10 +145,11 @@ const AddContent = () => {
         .getPublicUrl(data.path);
 
       return publicUrl;
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Upload failed';
       toast({
         title: "Upload failed",
-        description: error.message,
+        description: message,
         variant: "destructive",
       });
       throw error;
@@ -248,7 +250,9 @@ const AddContent = () => {
       // Ensure profile exists for FK and attribution
       await supabase.from("profiles").upsert({
         id: user.id,
-        display_name: (user.user_metadata as any)?.display_name || (user.email ? user.email.split("@")[0] : null)
+        display_name: (typeof (user.user_metadata as Record<string, unknown>)?.display_name === 'string'
+          ? ((user.user_metadata as Record<string, unknown>).display_name as string)
+          : (user.email ? user.email.split("@")[0] : null))
       });
 
       if (contentType === "word") {
@@ -268,7 +272,7 @@ const AddContent = () => {
         // Save to community_content table
         const { error } = await supabase.from("community_content").insert([{
           user_id: user.id,
-          content_type: contentType as any,
+          content_type: contentType as CommunityContentType,
           title,
           description,
           content_url: contentUrl || null,
@@ -296,10 +300,11 @@ const AddContent = () => {
       if (isPublic) {
         navigate("/community");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
       toast({
         title: "Error",
-        description: error.message,
+        description: message,
         variant: "destructive",
       });
     } finally {
@@ -616,3 +621,6 @@ const AddContent = () => {
 };
 
 export default AddContent;
+
+// Define a strict union for community content types
+type CommunityContentType = 'audio' | 'video' | 'picture' | 'article' | 'cultural_norm';

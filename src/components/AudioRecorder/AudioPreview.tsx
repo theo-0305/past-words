@@ -69,7 +69,7 @@ export function AudioPreview({
         }
       };
     }
-  }, [audioBlob]);
+  }, [audioBlob, volume]);
 
   // Update volume when slider changes
   useEffect(() => {

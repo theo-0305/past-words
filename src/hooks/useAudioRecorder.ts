@@ -77,7 +77,14 @@ export function useAudioRecorder({
 
       // Auto-stop at max duration
       if (elapsed >= maxDuration) {
-        stopRecording();
+        // Avoid forward reference; directly stop the recorder
+        try {
+          mediaRecorderRef.current?.stop();
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : 'Failed to auto-stop recording';
+          setError(msg);
+          toast.error(msg);
+        }
       }
     }
   }, [isPaused, maxDuration]);
@@ -157,8 +164,10 @@ export function useAudioRecorder({
         }
       };
 
-      mediaRecorder.onerror = (event) => {
-        const errorMessage = `Recording error: ${event.error}`;
+      mediaRecorder.onerror = (event: Event) => {
+        const anyEvent = event as unknown as { error?: unknown };
+        const errVal = anyEvent?.error;
+        const errorMessage = `Recording error: ${typeof errVal === 'string' ? errVal : (errVal instanceof Error ? errVal.message : 'Unknown error')}`;
         setError(errorMessage);
         cleanup();
         
@@ -185,7 +194,7 @@ export function useAudioRecorder({
       
       toast.error(errorMessage);
     }
-  }, [isSupported, mimeType, maxDuration, onRecordingComplete, onRecordingError, cleanup, updateDuration]);
+  }, [isSupported, mimeType, onRecordingComplete, onRecordingError, cleanup, updateDuration]);
 
   // Stop recording
   const stopRecording = useCallback(async () => {

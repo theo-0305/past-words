@@ -169,13 +169,18 @@ export default function UserManagement() {
 
       if (error) throw error;
 
-      await supabase.from('admin_audit_log').insert({
-        admin_id: user?.id,
-        action: 'assign_role',
-        target_type: 'user',
-        target_id: selectedUser.id,
-        details: { role: selectedRole }
-      });
+      // Log admin action via RPC to respect RLS and enforce admin check
+      try {
+        await supabase.rpc('log_admin_action', {
+          _action: 'assign_role',
+          _target_type: 'user',
+          _target_id: selectedUser.id,
+          _details: { role: selectedRole },
+        });
+      } catch (auditErr: any) {
+        const msg = auditErr?.message || '';
+        console.warn('[assignRole] Audit log insert blocked or failed:', msg);
+      }
 
       toast({
         title: 'Role Assigned',

@@ -110,7 +110,7 @@ export function useAudioStorage(options: AudioUploadOptions = {}): UseAudioStora
       setIsUploading(false);
       setUploadProgress(0);
     }
-  }, [maxRetries, retryDelay]);
+  }, [maxRetries, retryDelay, bucket]);
 
   // Delete audio file from storage
   const deleteAudio = useCallback(async (filePath: string): Promise<boolean> => {
@@ -141,7 +141,7 @@ export function useAudioStorage(options: AudioUploadOptions = {}): UseAudioStora
       console.error('Delete audio error:', error);
       return false;
     }
-  }, []);
+  }, [bucket]);
 
   return {
     uploadAudio,
